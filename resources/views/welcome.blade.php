@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="assets/css/sl.css">
     <link rel="stylesheet" type="text/css" href="assets/css/owl-carousel.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -303,6 +304,10 @@
         </div>
     </section>
 
+    <div>
+        <button style="display: none" id="showLogin" data-target="#loginModal" data-toggle="modal"></button>
+    </div>
+
 
     @include('footer')
     <!-- Footer End -->
@@ -323,6 +328,37 @@
 
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalTitle">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login" method="post" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="email">Email:<span class="text-danger">*</span></label>
+                            <input required type="email" name="email" id="" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:<span class="text-danger">*</span></label>
+                            <input required type="password" name="password" id="" class="form-control">
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" value="yes" name="btnLogin">Login</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -354,7 +390,8 @@
                         </div>
                         <div class="form-group">
                             <label for="birthDate">Birth Date:<span class="text-danger">*</span></label>
-                            <input required type="date" name="birthDate" id="" class="form-control">
+                            <input required type="date" name="birthDate" id="" class="form-control"
+                                max="2018-12-31">
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender:<span class="text-danger">*</span></label>
@@ -420,6 +457,15 @@
                             <input required type="hidden" id="gender2" name="gender2" value="">
                         </div>
 
+                        <div class="form-group">
+                            <div class="row text-center">
+                                <div class="col-lg-12">
+                                    Already Have An Account? <a href="#" data-dismiss="modal"
+                                        onclick="document.getElementById('showLogin').click();">Login Here</a>
+                                </div>
+                            </div>
+                        </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -436,6 +482,48 @@
             gender2.value = data;
         }
     </script>
+
+    @if (session()->pull('successCreate'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Created An Account',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successCreate') }}
+    @endif
+    @if (session()->pull('errorCreate'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Failed To Create An Account, Please Try Again Later',
+                    showConfirmButton: true,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorCreate') }}
+    @endif
+    @if (session()->pull('errorLogin'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: 'Wrong Username or Password',
+                    showConfirmButton: true,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorLogin') }}
+    @endif
+
 </body>
 
 </html>

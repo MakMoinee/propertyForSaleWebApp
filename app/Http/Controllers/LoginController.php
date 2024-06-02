@@ -34,18 +34,28 @@ class LoginController extends Controller
                     $newUser->phoneNumber = $request->phoneNumber;
                     $newUser->email = $request->email;
                     $newUser->password = Hash::make($password);
-                    $newUser->type = 'Client';
-                    $newUser->approval = 'approved';
+                    $accountType = $request->accountType;
+                    $newUser->type = $accountType;
+                    if ($accountType == "Client") {
+                        $newUser->approval = 'approved';
+                    }
                     $newUser->status = 'Active Now';
                     $isSave = $newUser->save();
                     if ($isSave) {
-                        session()->put('successLogin', true);
+                        session()->put('successCreate', true);
                     } else {
-                        session()->put('errorLogin', true);
+                        session()->put('errorCreate', true);
                     }
                 } else {
                     session()->put('passwordNotMatch', true);
                 }
+            }
+        } else if ($request->btnLogin) {
+            $query = json_decode(DB::table('system_users')->where('email', '=', $request->email)->get(), true);
+            if (count($query) > 0) {
+
+            } else {
+                session()->put("errorLogin", true);
             }
         }
         return redirect("/");
