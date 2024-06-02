@@ -1496,3 +1496,20 @@ preloader
     opacity: 0;
   }
 }
+
+.bg-violet {
+  background-color: violet !important;
+}
+
+.btn-dark {
+  background-color: #1e1e1e !important;
+}
+
+.bg-sdark {
+  background-color: rgb(100, 100, 100) !important;
+}
+
+.text-sdark {
+  color: #eee;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
