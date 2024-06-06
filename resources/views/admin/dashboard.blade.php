@@ -105,7 +105,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/logout">
+                                    <a class="nav-link" href="#" data-coreui-toggle="modal"
+                                        data-coreui-target="#logoutModal">
                                         <img src="/logout.svg" alt="" srcset="" class="nav-icon">
                                         Logout
                                     </a>
@@ -167,11 +168,13 @@
                                 <div class="fw-semibold">Settings</div>
                             </div>
                             <a class="dropdown-item" href="/admin_profiles">
-                                <img src="/personal black.svg" alt="" srcset="" class="icon me-2"> Profile
+                                <img src="/personal black.svg" alt="" srcset="" class="icon me-2">
+                                Profile
                             </a>
-                            <div class="dropdown-divider"></div><a class="dropdown-item"
-                                href="/logout">
-                                <img src="/logout black.svg" alt="" srcset="" class="icon me-2"> Logout</a>
+                            <div class="dropdown-divider"></div><a class="dropdown-item" href="#"
+                                data-coreui-toggle="modal" data-coreui-target="#logoutModal">
+                                <img src="/logout black.svg" alt="" srcset="" class="icon me-2">
+                                Logout</a>
                         </div>
                     </li>
                 </ul>
@@ -253,6 +256,28 @@
     <script src="/asset2/coreui-utils.js.download"></script>
     <script src="/asset2/main.js.download"></script>
     <script></script>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <form action="/logout" method="get">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <h3>Are You Sure You Want To Logout</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary text-white">Yes, Proceed</button>
+                        <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                            style="color:white !important;">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @if (session()->pull('successLoginAdmin'))
         <script>
             setTimeout(() => {
