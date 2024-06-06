@@ -53,7 +53,24 @@ class LoginController extends Controller
         } else if ($request->btnLogin) {
             $query = json_decode(DB::table('system_users')->where('email', '=', $request->email)->get(), true);
             if (count($query) > 0) {
-
+                $user = array();
+                foreach ($query as $q) {
+                    if (password_verify($request->password, $q['password'])) {
+                        $user = $q;
+                        break;
+                    }
+                }
+                if ($user['approval'] != "approved") {
+                    session()->put("loginNotApproved", true);
+                    return redirect("/");
+                }
+                session()->put("users", $user);
+                if ($user['type'] == "Admin") {
+                    session()->put("successLoginAdmin", true);
+                    return redirect("/admin_dashboard");
+                } else {
+                    return redirect("/client_home");
+                }
             } else {
                 session()->put("errorLogin", true);
             }
