@@ -49,16 +49,7 @@
                         <ul class="nav">
                             <li class="scroll-to-section"><a href="#welcome" class="active">Home</a></li>
                             <li class="scroll-to-section"><a href="#about">Property</a></li>
-                            <li class="scroll-to-section"><a href="#services">Page</a></li>
-                            <li class="submenu">
-                                <a href="javascript:;">Blog</a>
-                                <ul>
-                                    <li><a href="">About Us</a></li>
-                                    <li><a href="">Features</a></li>
-                                    <li><a href="">FAQ's</a></li>
-                                    <li><a href="">Blog</a></li>
-                                </ul>
-                            </li>
+                            <li class="scroll-to-section"><a href="#services">Agents</a></li>
                             <li class="scroll-to-section padRight"><a href="#contact-us">Contact Us</a></li>
                             <li class="scroll-to-section"><a href="#" data-toggle="modal"
                                     data-target="#signupModal">Register/Login</a></li>
@@ -83,7 +74,7 @@
         <!-- ***** Header Text Start ***** -->
         <div class="header-text">
             <div class="container">
-                <div class="row">
+                <div class="row" style="padding-bottom: 40px;">
                     <div class="left-text col-lg-6 col-md-6 col-sm-12 col-xs-12"
                         data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
                         <h1><strong>Find The Best Property in the Philippines </strong></h1>
@@ -115,12 +106,12 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <button class="btn btn-primary mt-2">Filters</button>
+                                        <div class="col-md-12">
+                                            <button class="btn btn-primary mt-2" style="width: 46%">Filters</button>
+                                            <button class="btn btn-danger mt-2"
+                                                style="width: 46%; margin-left: 20px;">Search Now</button>
                                         </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-danger mt-2">Search Now</button>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
