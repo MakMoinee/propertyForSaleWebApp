@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class AdminDashboardController extends Controller
+class AdminUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +19,17 @@ class AdminDashboardController extends Controller
             if ($user['type'] != "Admin") {
                 return redirect("/");
             }
-            return view('admin.dashboard');
+
+            $mUsers = DB::table('system_users')
+                ->where('type', '<>', 'Admin')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+
+            $actionType = ['approved', 'disapproved'];
+
+            return view('admin.users', ['users' => $mUsers, 'actionType' => $actionType]);
         }
+        return redirect("/");
     }
 
     /**

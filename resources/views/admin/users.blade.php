@@ -54,6 +54,11 @@
             color: rgb(255, 255, 255);
             background: rgba(253, 245, 139, 0.349);
         }
+
+        .card-header {
+            background-color: #ff0000e3 !important;
+            color: white;
+        }
     </style>
 </head>
 
@@ -74,7 +79,7 @@
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/admin_dashboard">
+                                    <a class="nav-link" href="/admin_dashboard">
                                         <img src="/dashboard.svg" alt="" srcset="" class="nav-icon">
                                         Dashboard
                                     </a>
@@ -86,7 +91,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin_users">
+                                    <a class="nav-link active" href="/admin_users">
                                         <img src="/users.svg" alt="" srcset="" class="nav-icon"> User
                                         Information
                                     </a>
@@ -186,7 +191,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Dashboard</span></li>
+                        <li class="breadcrumb-item active"><span>Users</span></li>
                     </ol>
                 </nav>
             </div>
@@ -194,38 +199,106 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
                 <div class="row">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card mb-4 text-black bg-white" style="height: 165px;">
-                            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                                <div>
-                                    <div class="fs-4 fw-semibold">26K</div>
-                                    <div>Registered Client/s</div>
-                                </div>
+                    <div class="col-md-12">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <span style="font-size:25px;">USER INFORMATION</span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card mb-4 text-black bg-white" style="height: 165px;">
-                            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                                <div>
-                                    <div class="fs-4 fw-semibold">26K</div>
-                                    <div>Registered Agent/s</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            <div class="card-body">
+                                <form action="/admin_users" method="get">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <input type="search" class="form-control" placeholder="Search Name"
+                                                aria-label="Search Name" aria-describedby="basic-addon2" name="search">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-primary input-group-text">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <br>
+                                <table class="table border mb-0">
+                                    <thead class="table-light fw-semibold">
+                                        <tr class="align-middle">
+                                            <th class="text-center">ID</th>
+                                            <th>Name</th>
+                                            <th class="text-center">Email</th>
+                                            <th>Phone Number</th>
+                                            <th class="text-center">License Number</th>
+                                            <th>Type</th>
+                                            <th class="text-center">Action</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($users as $item)
+                                            <tr class="align-middle">
+                                                <td class="text-center">
+                                                    {{ $item->userID }}
+                                                </td>
+                                                <td>
+                                                    {{ $item->firstName }} {{ $item->middleName }} {{ $item->lastName }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $item->email }}
+                                                </td>
+                                                <td>
+                                                    ({{ $item->countryCode }})
+                                                    {{ $item->phoneNumber }}
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (isset($item->licenseImage))
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{ $item->type }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <select class="form-control" name="approval" id="">
+                                                        @foreach ($actionType as $i)
+                                                            @if ($item->approval == $i)
+                                                                <option value="{{ $i }}" selected>
+                                                                    {{ $i }}
+                                                                </option>
+                                                            @else
+                                                                <option value="{{ $i }}" selected>
+                                                                    {{ $i }}
+                                                                </option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card mb-4 text-black bg-white" style="height: 165px;">
-                            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                                <div>
-                                    <div class="fs-4 fw-semibold">26K</div>
-                                    <div>Total Properties</div>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            @for ($i = 1; $i <= $users->lastPage(); $i++)
+                                                @if ($i == 1)
+                                                    <li class="page-item " style="margin-left: 15px;">
+                                                        <a class="page-link {{ $users->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $users->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @else
+                                                    <li class="page-item ">
+                                                        <a class="page-link {{ $users->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $users->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endif
+                                            @endfor
+                                        </ul>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
             </div>
