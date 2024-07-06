@@ -198,7 +198,7 @@
                         <div class="card mb-4 text-black bg-white" style="height: 165px;">
                             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                                 <div>
-                                    <div class="fs-4 fw-semibold">26K</div>
+                                    <div class="fs-4 fw-semibold">{{ $clientCount }}</div>
                                     <div>Registered Client/s</div>
                                 </div>
                             </div>
@@ -208,7 +208,7 @@
                         <div class="card mb-4 text-black bg-white" style="height: 165px;">
                             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                                 <div>
-                                    <div class="fs-4 fw-semibold">26K</div>
+                                    <div class="fs-4 fw-semibold">{{ $agentCount }}</div>
                                     <div>Registered Agent/s</div>
                                 </div>
                             </div>

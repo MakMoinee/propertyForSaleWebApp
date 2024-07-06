@@ -481,8 +481,7 @@
                     position: 'center',
                     icon: 'success',
                     title: 'Successfully Created An Account',
-                    showConfirmButton: false,
-                    timer: 800
+                    showConfirmButton: true,
                 });
             }, 500);
         </script>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
@@ -18,7 +19,14 @@ class AdminDashboardController extends Controller
             if ($user['type'] != "Admin") {
                 return redirect("/");
             }
-            return view('admin.dashboard');
+
+            $clientCount = count(json_decode(DB::table('system_users')->where('type', '=', 'Client')->get(), true));
+            $agentCount = count(json_decode(DB::table('system_users')->where('type', '=', 'Agent')->get(), true));
+
+            return view('admin.dashboard', [
+                'clientCount' => $clientCount,
+                'agentCount' => $agentCount
+            ]);
         }
     }
 
