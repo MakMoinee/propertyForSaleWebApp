@@ -10,8 +10,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,
       shrink-to-fit=no">
-    
-    <meta name="author" content="Łukasz Holeczek">
+
+    <meta name="author" content="Titus Silver">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>BestProperties.ph</title>
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -73,34 +73,27 @@
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/admin_dashboard">
+                                    <a class="nav-link active" href="/agent_dashboard">
                                         <img src="/dashboard.svg" alt="" srcset="" class="nav-icon">
                                         Dashboard
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"href="/admin_property">
+                                    <a class="nav-link"href="/agent_property">
                                         <img src="/property.svg" alt="" srcset="" class="nav-icon">
                                         Property Information
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin_users">
-                                        <img src="/users.svg" alt="" srcset="" class="nav-icon"> User
-                                        Information
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/admin_sales">
+                                    <a class="nav-link" href="/agent_sales">
                                         <img src="/sales.svg" alt="" srcset="" class="nav-icon"> Sales
                                         History
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin_feedbacks">
-                                        <img src="/feedback.svg" alt="" srcset="" class="nav-icon">
-                                        Feedback
-                                        Information
+                                    <a class="nav-link" href="/agent_profile">
+                                        <img src="/personal white.svg" alt="" srcset=""
+                                            class="nav-icon">Profile
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -157,7 +150,7 @@
                 </ul>
                 <ul class="header-nav ms-3">
                     <p>
-                        <h6>Hello, <b>Admin</b></h6>
+                    <h6>Hello, <b>Agent</b></h6>
                     </p>
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="https://coreui.io/demos/bootstrap/4.2/free/#" role="button" aria-haspopup="true"
@@ -169,7 +162,7 @@
                             <div class="dropdown-header bg-light py-2">
                                 <div class="fw-semibold">Settings</div>
                             </div>
-                            <a class="dropdown-item" href="/admin_profiles">
+                            <a class="dropdown-item" href="/agent_profiles">
                                 <img src="/personal black.svg" alt="" srcset="" class="icon me-2">
                                 Profile
                             </a>
@@ -200,8 +193,8 @@
                         <div class="card mb-4 text-black bg-white" style="height: 165px;">
                             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                                 <div>
-                                    <div class="fs-4 fw-semibold">{{ $clientCount }}</div>
-                                    <div>Registered Client/s</div>
+                                    <div class="fs-4 fw-semibold">0</div>
+                                    <div>Total Sales</div>
                                 </div>
                             </div>
                         </div>
@@ -210,8 +203,8 @@
                         <div class="card mb-4 text-black bg-white" style="height: 165px;">
                             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                                 <div>
-                                    <div class="fs-4 fw-semibold">{{ $agentCount }}</div>
-                                    <div>Registered Agent/s</div>
+                                    <div class="fs-4 fw-semibold">{{ count($allProperties) }}</div>
+                                    <div>Total Properties</div>
                                 </div>
                             </div>
                         </div>
@@ -221,8 +214,30 @@
                         <div class="card mb-4 text-black bg-white" style="height: 165px;">
                             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                                 <div>
-                                    <div class="fs-4 fw-semibold">26K</div>
-                                    <div>Total Properties</div>
+                                    <div class="fs-4 fw-semibold">0</div>
+                                    <div>No. Of Appartment</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card mb-4 text-black bg-white" style="height: 165px;">
+                            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="fs-4 fw-semibold">0</div>
+                                    <div>No. Of Houses</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card mb-4 text-black bg-white" style="height: 165px;">
+                            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="fs-4 fw-semibold">0</div>
+                                    <div>No. Of Rentals</div>
                                 </div>
                             </div>
                         </div>
@@ -268,7 +283,7 @@
             </div>
         </div>
     </div>
-    @if (session()->pull('successLoginAdmin'))
+    @if (session()->pull('successLoginAgent'))
         <script>
             setTimeout(() => {
                 Swal.fire({

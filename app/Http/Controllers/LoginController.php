@@ -60,6 +60,10 @@ class LoginController extends Controller
                         break;
                     }
                 }
+                if (count($user) == 0) {
+                    session()->put("errorLogin", true);
+                    return redirect("/");
+                }
                 if ($user['approval'] != "approved") {
                     session()->put("loginNotApproved", true);
                     return redirect("/");
@@ -68,6 +72,9 @@ class LoginController extends Controller
                 if ($user['type'] == "Admin") {
                     session()->put("successLoginAdmin", true);
                     return redirect("/admin_dashboard");
+                } else if ($user['type'] == "Agent") {
+                    session()->put("successLoginAgent", true);
+                    return redirect("/agent_dashboard");
                 } else {
                     return redirect("/client_home");
                 }

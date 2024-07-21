@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminProperInfoController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AgentDashboardController;
+use App\Http\Controllers\AgentPropertyController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\WelcomeController;
@@ -25,4 +27,6 @@ Route::post("/login", [LoginController::class, 'store']);
 Route::resource("/admin_dashboard", AdminDashboardController::class);
 Route::resource("/admin_users", AdminUserController::class);
 Route::resource("/admin_property", AdminProperInfoController::class);
+Route::resource("/agent_dashboard", AgentDashboardController::class);
+Route::resource("/agent_property", AgentPropertyController::class);
 Route::get("/logout", [LogoutController::class, 'index']);

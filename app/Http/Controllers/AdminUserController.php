@@ -25,7 +25,7 @@ class AdminUserController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-            $actionType = ['approved', 'disapproved'];
+            $actionType = ['disapproved', 'approved'];
 
             return view('admin.users', ['users' => $mUsers, 'actionType' => $actionType]);
         }
@@ -69,7 +69,38 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (session()->exists("users")) {
+            $user = session()->pull("users");
+            session()->put("users", $user);
+
+            if ($user['type'] != "Admin") {
+                return redirect("/");
+            }
+
+            if ($request->btnApproved) {
+                $isUpdate = DB::table('system_users')->where('userID', '=', $id)->update([
+                    'approval' => "approved",
+                ]);
+
+                if ($isUpdate > 0) {
+                    session()->put("successApproved", true);
+                } else {
+                    session()->put("errorApproved", true);
+                }
+            } else if ($request->btnDisApproved) {
+                $isUpdate = DB::table('system_users')->where('userID', '=', $id)->update([
+                    'approval' => "disapproved",
+                ]);
+
+                if ($isUpdate > 0) {
+                    session()->put("successDisapproved", true);
+                } else {
+                    session()->put("errorDisapproved", true);
+                }
+            }
+            return redirect("/admin_users");
+        }
+        return redirect("/");
     }
 
     /**

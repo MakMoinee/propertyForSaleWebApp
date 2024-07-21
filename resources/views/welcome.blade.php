@@ -500,6 +500,20 @@
         </script>
         {{ session()->forget('errorCreate') }}
     @endif
+    
+    @if (session()->pull('loginNotApproved'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Login Not Approved Yet, Please Try Again Later',
+                    showConfirmButton: true,
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('loginNotApproved') }}
+    @endif
     @if (session()->pull('errorLogin'))
         <script>
             setTimeout(() => {

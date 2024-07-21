@@ -10,8 +10,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,
       shrink-to-fit=no">
-    
-    <meta name="author" content="Łukasz Holeczek">
+
+    <meta name="author" content="Titus Silver">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>BestProperties.ph</title>
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -53,11 +53,6 @@
             color: rgb(255, 255, 255);
             background: rgba(253, 245, 139, 0.349);
         }
-
-        .card-header {
-            background-color: #ff0000e3 !important;
-            color: white;
-        }
     </style>
 </head>
 
@@ -78,34 +73,27 @@
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin_dashboard">
+                                    <a class="nav-link " href="/agent_dashboard">
                                         <img src="/dashboard.svg" alt="" srcset="" class="nav-icon">
                                         Dashboard
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"href="/admin_property">
+                                    <a class="nav-link active" href="/agent_property">
                                         <img src="/property.svg" alt="" srcset="" class="nav-icon">
                                         Property Information
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/admin_users">
-                                        <img src="/users.svg" alt="" srcset="" class="nav-icon"> User
-                                        Information
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/admin_sales">
+                                    <a class="nav-link" href="/agent_sales">
                                         <img src="/sales.svg" alt="" srcset="" class="nav-icon"> Sales
                                         History
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin_feedbacks">
-                                        <img src="/feedback.svg" alt="" srcset="" class="nav-icon">
-                                        Feedback
-                                        Information
+                                    <a class="nav-link" href="/agent_profile">
+                                        <img src="/personal white.svg" alt="" srcset=""
+                                            class="nav-icon">Profile
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -162,7 +150,7 @@
                 </ul>
                 <ul class="header-nav ms-3">
                     <p>
-                        <h6>Hello, <b>Admin</b></h6>
+                    <h6>Hello, <b>Agent</b></h6>
                     </p>
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="https://coreui.io/demos/bootstrap/4.2/free/#" role="button" aria-haspopup="true"
@@ -174,7 +162,7 @@
                             <div class="dropdown-header bg-light py-2">
                                 <div class="fw-semibold">Settings</div>
                             </div>
-                            <a class="dropdown-item" href="/admin_profiles">
+                            <a class="dropdown-item" href="/agent_profiles">
                                 <img src="/personal black.svg" alt="" srcset="" class="icon me-2">
                                 Profile
                             </a>
@@ -193,7 +181,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Users</span></li>
+                        <li class="breadcrumb-item active"><span>Property Information</span></li>
                     </ol>
                 </nav>
             </div>
@@ -204,10 +192,12 @@
                     <div class="col-md-12">
                         <div class="card mb-4">
                             <div class="card-header">
-                                <span style="font-size:25px;">USER INFORMATION</span>
+                                <span style="font-size:25px;">PROPERTY INFORMATION</span>
+                                <button class="btn btn-primary" style="float: right;" data-coreui-toggle="modal"
+                                    data-coreui-target="#addPropertyModal">Add Property</button>
                             </div>
                             <div class="card-body">
-                                <form action="/admin_users" method="get">
+                                <form action="/agent_property" method="get">
                                     <div class="form-group">
                                         <div class="input-group mb-3">
                                             <input type="search" class="form-control" placeholder="Search Name"
@@ -224,94 +214,82 @@
                                 <table class="table border mb-0">
                                     <thead class="table-light fw-semibold">
                                         <tr class="align-middle">
-                                            <th class="text-center">ID</th>
-                                            <th>Name</th>
-                                            <th class="text-center">Email</th>
-                                            <th>Phone Number</th>
-                                            <th class="text-center">License Number</th>
-                                            <th>Type</th>
-                                            <th class="text-center">Action</th>
-                                            <th></th>
+                                            <th class="text-center">Property Name</th>
+                                            <th>Price</th>
+                                            <th class="text-center">Contact Number</th>
+                                            <th>Other Details</th>
+                                            <th class="text-center">Type</th>
+                                            <th>Posted Date</th>
+                                            <th class="text-center">Image</th>
+                                            <th>Action</th>
+                                            <th class="text-center"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($users as $item)
+                                        @foreach ($properties as $item)
                                             <tr class="align-middle">
-                                                <td class="text-center">
-                                                    {{ $item->userID }}
-                                                </td>
+                                                <td class="text-center">{{ $item->propertyName }}</td>
                                                 <td>
-                                                    {{ $item->firstName }} {{ $item->middleName }} {{ $item->lastName }}
+                                                    {{ $item->price }}
                                                 </td>
                                                 <td class="text-center">
-                                                    {{ $item->email }}
+                                                    {{ $item->contactNumber }}
                                                 </td>
                                                 <td>
-                                                    ({{ $item->countryCode }})
-                                                    {{ $item->phoneNumber }}
+                                                    {{ $item->otherDetails }}
                                                 </td>
                                                 <td class="text-center">
-                                                    @if (isset($item->licenseImage))
-                                                    @endif
-                                                </td>
-                                                <td>
                                                     {{ $item->type }}
                                                 </td>
+                                                <td>
+                                                    {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                </td>
                                                 <td class="text-center">
-                                                    <select class="form-control" name="approval" id=""
-                                                        onchange="clientApproved(this.value,{{ $item->userID }});">
-                                                        @foreach ($actionType as $i)
-                                                            @if ($item->approval == $i)
-                                                                <option value="{{ $i }}" selected>
-                                                                    {{ $i }}
-                                                                </option>
-                                                            @else
-                                                                <option value="{{ $i }}">
-                                                                    {{ $i }}
-                                                                </option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
+                                                    @if (count($imgArray) > 0)
+                                                    @else
+                                                        <button class="btn btn-white">
+                                                            <img src="/addImage.svg" alt="" srcset="">
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-white">
+                                                        <img src="/delete.svg" alt="" srcset="">
+                                                    </button>
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination">
-                                        <ul class="pagination">
-                                            @for ($i = 1; $i <= $users->lastPage(); $i++)
-                                                @if ($i == 1)
-                                                    <li class="page-item " style="margin-left: 15px;">
-                                                        <a class="page-link {{ $users->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $users->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @else
-                                                    <li class="page-item ">
-                                                        <a class="page-link {{ $users->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $users->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @endif
-                                            @endfor
-                                        </ul>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="pagination">
+                                            <ul class="pagination">
+                                                @for ($i = 1; $i <= $properties->lastPage(); $i++)
+                                                    @if ($i == 1)
+                                                        <li class="page-item " style="margin-left: 15px;">
+                                                            <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
+                                                                href="{{ $properties->url($i) }}">{{ $i }}</a>
+                                                        </li>
+                                                    @else
+                                                        <li class="page-item ">
+                                                            <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
+                                                                href="{{ $properties->url($i) }}">{{ $i }}</a>
+                                                        </li>
+                                                    @endif
+                                                @endfor
+                                            </ul>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
-            </div>
-            <div>
-                <button id="btnApproved" class="btn btn-primary" style="display: none;"
-                    data-coreui-target="#approvedModal" data-coreui-toggle="modal"></button>
-                <button id="btnDisapproved" class="btn btn-primary" style="display: none;"
-                    data-coreui-target="#disApprovedModal" data-coreui-toggle="modal"></button>
             </div>
         </div>
         <footer class="footer">
@@ -323,68 +301,65 @@
     <script src="/asset2/coreui.bundle.min.js.download"></script>
     <script src="/asset2/simplebar.min.js.download"></script>
 
+    <script src="/asset2/chart.min.js.download"></script>
+    <script src="/asset2/coreui-chartjs.js.download"></script>
+    <script src="/asset2/coreui-utils.js.download"></script>
     <script src="/asset2/main.js.download"></script>
-    <script>
-        function clientApproved(isApproved, id) {
-            console.log(isApproved, id);
+    <script></script>
+    <div class="modal fade" id="addPropertyModal" tabindex="-1" role="dialog"
+        aria-labelledby="addPropertyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/agent_property" method="post">
+                    @method('post')
+                    @csrf
+                    <div class="modal-header">
+                        <h3>Add Property</h3>
+                    </div>
+                    <form action="" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="propertyName">Property Name:</label>
+                                    <input required type="text" name="propertyName" id=""
+                                        class="form-control mt-2">
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="price">Price:</label>
+                                    <input required type="number" name="price" id=""
+                                        class="form-control mt-2">
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="phoneNumber">Phone Number:</label>
+                                    <input required type="number" name="phoneNumber" id=""
+                                        class="form-control mt-2">
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="location">Location:</label>
+                                    <textarea required name="location" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="otherDetails">Other Details:</label>
+                                    <textarea required name="otherDetails" id="" cols="30" rows="5" class="form-control mt-2"></textarea>
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="type">Type:</label>
+                                    <select required name="type" id="" class="form-control mt-2">
+                                        <option value="rent">For Rent</option>
+                                        <option value="sale">For Sale</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="btnAddProperty" value="yes"
+                                class="btn btn-primary text-white">Yes, Proceed</button>
+                            <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                                style="color:white !important;">Close</button>
+                        </div>
+                    </form>
 
-            let disApprovedForm = document.getElementById('disApprovedForm');
-            let btnApproved = document.getElementById('btnApproved');
-            let btnDisapproved = document.getElementById('btnDisapproved');
-            let approvedForm = document.getElementById('approvedForm');
-            if (isApproved === "approved") {
-                approvedForm.action = `/admin_users/${id}`;
-                btnApproved.click();
-            } else {
-                disApprovedForm.action = `/admin_users/${id}`;
-                btnDisapproved.click();
-            }
-        }
-    </script>
-    <div class="modal fade" id="disApprovedModal" tabindex="-1" role="dialog"
-        aria-labelledby="disApprovedModalLabel" aria-hidden="true">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <form id="disApprovedForm" action="/approved" method="POST">
-                    @method('put')
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group">
-                                <h5>Are You Sure You Want To Disapproved This User?</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" name="btnDisApproved" value="yes"
-                            class="btn btn-primary text-white">Yes, Proceed</button>
-                        <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
-                            style="color:white !important;">Close</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="approvedModal" tabindex="-1" role="dialog" aria-labelledby="approvedModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <form id="approvedForm" action="/approved" method="POST">
-                    @method('put')
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group">
-                                <h5>Are You Sure You Want To Approve This User?</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" name="btnApproved" value="yes"
-                            class="btn btn-primary text-white">Yes, Proceed</button>
-                        <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
-                            style="color:white !important;">Close</button>
-                    </div>
                 </form>
             </div>
         </div>
@@ -411,75 +386,33 @@
             </div>
         </div>
     </div>
-    @if (session()->pull('successLoginAdmin'))
+    @if (session()->pull('successAddProperty'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Login Successfully',
+                    title: 'Successfully Added Property',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLoginAdmin') }}
+        {{ session()->forget('successAddProperty') }}
     @endif
-    @if (session()->pull('successApproved'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Approved Successfully',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('successApproved') }}
-    @endif
-    @if (session()->pull('successDisapproved'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Disapproved User Successfully',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('successDisapproved') }}
-    @endif
-    @if (session()->pull('errorDisapproved'))
+    @if (session()->pull('errorAddProperty'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Failed To Disapproved User, Please Try Again Later',
+                    title: 'Failed To Add Property, Please Try Again Later',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('errorDisapproved') }}
-    @endif
-    @if (session()->pull('errorApproved'))
-        <script>
-            setTimeout(() => {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: 'Failed To Approved User, Please Try Again Later',
-                    showConfirmButton: false,
-                    timer: 800
-                });
-            }, 500);
-        </script>
-        {{ session()->forget('errorApproved') }}
+        {{ session()->forget('errorAddProperty') }}
     @endif
 </body>
 

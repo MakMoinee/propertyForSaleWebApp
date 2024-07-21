@@ -10,8 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,
       shrink-to-fit=no">
-    <meta name="description" content="CoreUI - Open Source Bootstrap Admin
-      Template">
+    
     <meta name="author" content="Łukasz Holeczek">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>BestProperties.ph</title>
@@ -161,6 +160,9 @@
                             </svg></a></li>
                 </ul>
                 <ul class="header-nav ms-3">
+                    <p>
+                        <h6>Hello, <b>Admin</b></h6>
+                    </p>
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="https://coreui.io/demos/bootstrap/4.2/free/#" role="button" aria-haspopup="true"
                             aria-expanded="false">
