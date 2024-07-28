@@ -247,13 +247,17 @@
                                                 <td class="text-center">
                                                     @if (count($imgArray) > 0)
                                                     @else
-                                                        <button class="btn btn-white">
+                                                        <button class="btn btn-white" data-coreui-toggle="modal"
+                                                            data-coreui-target="#addImageModal"
+                                                            onclick="updateAddImage('{{ $item->propertyName }}')">
                                                             <img src="/addImage.svg" alt="" srcset="">
                                                         </button>
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-white">
+                                                    <button class="btn btn-white" data-coreui-toggle="modal"
+                                                        data-coreui-target="#deletePropertyModal"
+                                                        onclick="deleteProp('{{ $item->propertyID }}')">
                                                         <img src="/delete.svg" alt="" srcset="">
                                                     </button>
                                                 </td>
@@ -305,7 +309,40 @@
     <script src="/asset2/coreui-chartjs.js.download"></script>
     <script src="/asset2/coreui-utils.js.download"></script>
     <script src="/asset2/main.js.download"></script>
-    <script></script>
+
+    <div class="modal fade" id="addImageModal" tabindex="-1" role="dialog" aria-labelledby="addImageModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/agent_property" method="post">
+                    @method('post')
+                    @csrf
+                    <div class="modal-header">
+                        <h3>Add Property Image</h3>
+                    </div>
+                    <form action="" method="post">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="propertyName">Property Name:</label>
+                                    <input style="cursor: not-allowed" readonly required type="text"
+                                        name="propertyName" id="imagePropertyName" class="form-control mt-2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="btnAddProperty" value="yes"
+                                class="btn btn-primary text-white">Yes, Proceed</button>
+                            <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                                style="color:white !important;">Close</button>
+                        </div>
+                    </form>
+
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="addPropertyModal" tabindex="-1" role="dialog"
         aria-labelledby="addPropertyModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -364,6 +401,34 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deletePropertyModal" tabindex="-1" role="dialog"
+        aria-labelledby="deletePropertyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="deleteProperty" action="/agent_property" method="post">
+                    @method('delete')
+                    @csrf
+                    <div class="modal-header">
+                        <h3>Delete Property</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <h5>
+                                Are You Sure You Want To Delete This Property?
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" name="btnDeleteProperty" value="yes"
+                            class="btn btn-primary text-white">Yes, Proceed</button>
+                        <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                            style="color:white !important;">Close</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
         aria-hidden="true">
         <div class="modal-dialog " role="document">
@@ -386,6 +451,31 @@
             </div>
         </div>
     </div>
+    <script>
+        function updateAddImage(img) {
+            let imagePropertyName = document.getElementById('imagePropertyName');
+            imagePropertyName.value = img;
+        }
+
+        function deleteProp(id) {
+            let deleteProperty = document.getElementById('deleteProperty');
+            deleteProperty.action = `/agent_property/${id}`;
+        }
+    </script>
+    @if (session()->pull('successDeleteProp'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Deleted Property',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successDeleteProp') }}
+    @endif
     @if (session()->pull('successAddProperty'))
         <script>
             setTimeout(() => {

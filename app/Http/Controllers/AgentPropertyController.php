@@ -117,8 +117,26 @@ class AgentPropertyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        if (session()->exists("users")) {
+            $user = session()->pull("users");
+            session()->put("users", $user);
+
+            if ($user['type'] != "Agent") {
+                return redirect("/");
+            }
+
+            if ($request->btnDeleteProperty) {
+                $isDeleted = DB::table('properties')->where('propertyID', '=', $id)->delete();
+                if ($isDeleted > 0) {
+                    session()->put('successDeleteProp', true);
+                } else {
+                    session()->put('errorDeleteProp', true);
+                }
+            }
+            return redirect("/agent_property");
+        }
+        return redirect("/");
     }
 }
