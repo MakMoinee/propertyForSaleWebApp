@@ -7,6 +7,7 @@ use App\Models\Properties;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class AgentPropertyController extends Controller
 {
@@ -36,7 +37,7 @@ class AgentPropertyController extends Controller
             foreach ($allProperties as $m) {
                 foreach ($allImage as $a) {
                     if ($a["propertyID"] == $m["propertyID"]) {
-                        $imgArray[$m["propertyID"]] = $m;
+                        $imgArray[$m["propertyID"]] = $a;
                     }
                 }
             }
@@ -184,6 +185,17 @@ class AgentPropertyController extends Controller
             }
 
             if ($request->btnDeleteProperty) {
+                try {
+                    $originalDirectoryPath = $request->origImagePath;
+                    if ($originalDirectoryPath) {
+                        $dataImg = explode(',', $request->origImagePath);
+                        foreach ($dataImg as $ai) {
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/" . $ai;
+                            File::delete($destinationPath);
+                        }
+                    }
+                } catch (Exception $e1) {
+                }
                 $isDeleted = DB::table('properties')->where('propertyID', '=', $id)->delete();
                 if ($isDeleted > 0) {
                     session()->put('successDeleteProp', true);

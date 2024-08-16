@@ -243,7 +243,7 @@
                                             <tr class="align-middle">
                                                 <td class="text-center">{{ $item->propertyName }}</td>
                                                 <td>
-                                                    {{ $item->price }}
+                                                    {{ number_format($item->price, 1) }}
                                                 </td>
                                                 <td class="text-center">
                                                     {{ $item->contactNumber }}
@@ -273,7 +273,7 @@
                                                 <td class="text-center">
                                                     <button class="btn btn-white" data-coreui-toggle="modal"
                                                         data-coreui-target="#deletePropertyModal"
-                                                        onclick="deleteProp('{{ $item->propertyID }}')">
+                                                        onclick="deleteProp('{{ $item->propertyID }}','{{ $imgArray[$item->propertyID]['imagePath'] }}')">
                                                         <img src="/delete.svg" alt="" srcset="">
                                                     </button>
                                                 </td>
@@ -397,8 +397,31 @@
                                         class="form-control mt-2">
                                 </div>
                                 <div class="form-group  mt-2">
-                                    <label for="location">Location:</label>
-                                    <textarea required name="location" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
+                                    <label for="beds">Beds:</label>
+                                    <input required type="number" name="beds" id=""
+                                        class="form-control mt-2">
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="baths">Baths:</label>
+                                    <input required type="number" name="baths" id=""
+                                        class="form-control mt-2">
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="lot">Lot Area:</label>
+                                    <input required type="number" name="lot" id=""
+                                        class="form-control mt-2">
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="street">Street/Purok:</label>
+                                    <textarea required name="street" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="city">City/Municipality:</label>
+                                    <textarea required name="city" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="province">State/Province:</label>
+                                    <textarea required name="province" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
                                 </div>
                                 <div class="form-group  mt-2">
                                     <label for="otherDetails">Other Details:</label>
@@ -441,6 +464,7 @@
                                 Are You Sure You Want To Delete This Property?
                             </h5>
                         </div>
+                        <input type="hidden" id="deleteImageProp" name="origImagePath" value="">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" name="btnDeleteProperty" value="yes"
@@ -504,9 +528,11 @@
             imagePid.value = id;
         }
 
-        function deleteProp(id) {
+        function deleteProp(id, imgProp) {
             let deleteProperty = document.getElementById('deleteProperty');
             deleteProperty.action = `/agent_property/${id}`;
+            let deleteImageProp = document.getElementById('deleteImageProp');
+            deleteImageProp.value = imgProp;
         }
     </script>
     @if (session()->pull('successDeleteProp'))

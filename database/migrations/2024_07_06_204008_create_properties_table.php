@@ -17,7 +17,13 @@ return new class extends Migration
             $table->string('propertyName')->nullable(false);
             $table->decimal('price',12,2)->nullable(false);
             $table->string('contactNumber')->nullable(false);
-            $table->string('location')->nullable(false);
+            $table->string('street')->nullable(false);
+            $table->string('city')->nullable(false);
+            $table->string('province')->nullable(false);
+            $table->string('zip')->nullable(false);
+            $table->integer('beds')->nullable(false);
+            $table->integer('baths')->nullable(false);
+            $table->float('lotArea')->nullable(false);
             $table->string('otherDetails')->nullable(true);
             $table->string('type')->nullable(false);
             $table->timestamps();

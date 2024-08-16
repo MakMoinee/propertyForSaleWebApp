@@ -263,7 +263,7 @@
                                         <div class="col-lg-12">
                                             <h4 class="text-danger">
                                                 <strong>
-                                                    P{{ $item->price }}
+                                                    P{{ number_format($item->price, 1) }}
                                                 </strong>
                                             </h4>
                                         </div>
