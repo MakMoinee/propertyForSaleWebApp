@@ -271,11 +271,20 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-white" data-coreui-toggle="modal"
-                                                        data-coreui-target="#deletePropertyModal"
-                                                        onclick="deleteProp('{{ $item->propertyID }}','{{ $imgArray[$item->propertyID]['imagePath'] }}')">
-                                                        <img src="/delete.svg" alt="" srcset="">
-                                                    </button>
+                                                    @if (count($imgArray) > 0)
+                                                        <button class="btn btn-white" data-coreui-toggle="modal"
+                                                            data-coreui-target="#deletePropertyModal"
+                                                            onclick="deleteProp('{{ $item->propertyID }}','{{ $imgArray[$item->propertyID]['imagePath'] }}')">
+                                                            <img src="/delete.svg" alt="" srcset="">
+                                                        </button>
+                                                    @else
+                                                        <button class="btn btn-white" data-coreui-toggle="modal"
+                                                            data-coreui-target="#deletePropertyModal"
+                                                            onclick="deleteProp('{{ $item->propertyID }}','')">
+                                                            <img src="/delete.svg" alt="" srcset="">
+                                                        </button>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -416,12 +425,21 @@
                                     <textarea required name="street" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
                                 </div>
                                 <div class="form-group  mt-2">
+                                    <label for="brgy">Barangay/Village:</label>
+                                    <textarea required name="brgy" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
+                                </div>
+                                <div class="form-group  mt-2">
                                     <label for="city">City/Municipality:</label>
                                     <textarea required name="city" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
                                 </div>
                                 <div class="form-group  mt-2">
                                     <label for="province">State/Province:</label>
-                                    <textarea required name="province" id="" cols="30" rows="2" class="form-control mt-2"></textarea>
+                                    <select name="province" id="addProvince" class="form-control mt-2"></select>
+                                </div>
+                                <div class="form-group  mt-2">
+                                    <label for="zipcode">Zip Code:</label>
+                                    <input required type="number" name="zipcode" id=""
+                                        class="form-control mt-2">
                                 </div>
                                 <div class="form-group  mt-2">
                                     <label for="otherDetails">Other Details:</label>
@@ -534,6 +552,31 @@
             let deleteImageProp = document.getElementById('deleteImageProp');
             deleteImageProp.value = imgProp;
         }
+
+        function getProvinces() {
+            fetch('https://psgc.gitlab.io/api/provinces/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    data.sort((a, b) => a.name.localeCompare(b.name));
+                    let dropdown = document.getElementById('addProvince');
+                    data.forEach(province => {
+                        const option = document.createElement('option');
+                        option.value = province.name;
+                        option.textContent = province.name;
+                        dropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+
+        }
+        getProvinces();
     </script>
     @if (session()->pull('successDeleteProp'))
         <script>

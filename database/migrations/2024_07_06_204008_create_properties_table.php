@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('price',12,2)->nullable(false);
             $table->string('contactNumber')->nullable(false);
             $table->string('street')->nullable(false);
+            $table->string('brgy')->nullable(false);
             $table->string('city')->nullable(false);
             $table->string('province')->nullable(false);
             $table->string('zip')->nullable(false);

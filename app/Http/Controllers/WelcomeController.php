@@ -27,7 +27,9 @@ class WelcomeController extends Controller
             ->limit(3)
             ->get();
 
+        $allProv = DB::table('properties')->distinct('province')->limit(6)->get();
+
         $allImages = json_decode(ImageProperties::all(), true);
-        return view("welcome", ['allProps' => $allProps, "allImages" => $allImages]);
+        return view("welcome", ['allProps' => $allProps, "allImages" => $allImages, 'allProv' => $allProv]);
     }
 }

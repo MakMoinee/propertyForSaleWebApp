@@ -99,9 +99,14 @@
                                                 name="" id="">
                                             <select name="propertyType" id="" class="form-control mt-2">
                                                 <option value="">Property Type</option>
+                                                <option value="For Rent">For Rent</option>
+                                                <option value="For Sale">For Sale</option>
                                             </select>
                                             <select name="location" id="" class="form-control mt-2">
                                                 <option value="">Location</option>
+                                                @foreach ($allProv as $item)
+                                                    <option value="{{ $item->province }}">{{ $item->province }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -124,84 +129,39 @@
     </div>
     <!-- ***** Welcome Area End ***** -->
 
+    @if (count($allProv) > 0)
+        <section class="section" style="margin-top: 100px; margin-bottom: 200px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 align-content-center text-center">
+                        <h1>
+                            <strong>
+                                Explore Our Listings
+                            </strong>
+                        </h1>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="row mt-2">
+                    @foreach ($allProv as $item)
+                        <div class="col-lg-2 align-content-center text-center p-2">
+                            <img src="/cebu.jpg" width="120px" height="120px" alt=""
+                                class="img-responsive rounded-circle">
+                            <br>
+                            <h5 class="mt-2">
+                                <strong>
+                                    {{ $item->province }}
+                                </strong>
+                            </h5>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
-    <section class="section" style="margin-top: 100px; margin-bottom: 200px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 align-content-center text-center">
-                    <h1>
-                        <strong>
-                            Explore Our Listings
-                        </strong>
-                    </h1>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="row mt-2">
-                <div class="col-lg-2 align-content-center text-center p-2">
-                    <img src="/cebu.jpg" width="120px" height="120px" alt=""
-                        class="img-responsive rounded-circle">
-                    <br>
-                    <h5 class="mt-2">
-                        <strong>
-                            Cebu
-                        </strong>
-                    </h5>
-                </div>
-                <div class="col-lg-2 align-content-center text-center p-2">
-                    <img src="/manila.jpg" width="120px" height="120px" alt=""
-                        class="img-responsive rounded-circle">
-                    <br>
-                    <h5 class="mt-2">
-                        <strong>
-                            Manila
-                        </strong>
-                    </h5>
-                </div>
-                <div class="col-lg-2 align-content-center text-center p-2">
-                    <img src="/cebu.jpg" width="120px" height="120px" alt=""
-                        class="img-responsive rounded-circle">
-                    <br>
-                    <h5 class="mt-2">
-                        <strong>
-                            Davao
-                        </strong>
-                    </h5>
-                </div>
-                <div class="col-lg-2 align-content-center text-center p-2">
-                    <img src="/manila.jpg" width="120px" height="120px" alt=""
-                        class="img-responsive rounded-circle">
-                    <br>
-                    <h5 class="mt-2">
-                        <strong>
-                            Dumaguete
-                        </strong>
-                    </h5>
-                </div>
-                <div class="col-lg-2 align-content-center text-center p-2">
-                    <img src="/cebu.jpg" width="120px" height="120px" alt=""
-                        class="img-responsive rounded-circle">
-                    <br>
-                    <h5 class="mt-2">
-                        <strong>
-                            Ilo Ilo
-                        </strong>
-                    </h5>
-                </div>
-                <div class="col-lg-2 align-content-center text-center p-2">
-                    <img src="/manila.jpg" width="120px" height="120px" alt=""
-                        class="img-responsive rounded-circle">
-                    <br>
-                    <h5 class="mt-2">
-                        <strong>
-                            Boracay
-                        </strong>
-                    </h5>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     @if (count($allProps) > 0)
 
@@ -220,7 +180,8 @@
                 <div class="row">
                     @foreach ($allProps as $item)
                         <div class="col-md-4">
-                            <div class="card mb-4 rounded" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                            <div class="card mb-4 rounded"
+                                style="cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -252,7 +213,8 @@
                                                     <img src="/map.svg" alt="" srcset=""
                                                         class="mt-1 float-left position-absolute">
                                                     <h6 class="ml-4 mt-1">
-                                                        {{ $item->location }}
+                                                        {{ $item->street }}, {{ $item->brgy }}, {{ $item->city }},
+                                                        {{ $item->province }} {{ $item->zip }}
                                                     </h6>
                                                 </div>
                                             </div>
@@ -274,21 +236,29 @@
                                             <img src="/bed.svg" alt="" srcset=""
                                                 class="float-left position-absolute">
                                             <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                Beds: <strong>4</strong>
+                                                Beds: <strong>{{ $item->beds }}</strong>
                                             </h6>
                                         </div>
                                         <div class="col-lg-4">
                                             <img src="/bath.svg" alt="" srcset=""
                                                 class="float-left position-absolute">
                                             <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                Baths: <strong>2</strong>
+                                                Baths: <strong>{{ $item->baths }}</strong>
                                             </h6>
                                         </div>
                                         <div class="col-lg-4">
                                             <img src="/area.svg" alt="" srcset=""
                                                 class="float-left position-absolute">
                                             <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                Sqm: <strong>115</strong>
+                                                Sqm: <strong>{{ $item->lotArea }}</strong>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h6 class="mt-1" style="font-size: 12px !important;">
+                                                Posted:
+                                                <strong>{{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}</strong>
                                             </h6>
                                         </div>
                                     </div>

@@ -74,7 +74,14 @@ class AgentPropertyController extends Controller
                 $newProperty->propertyName = $request->propertyName;
                 $newProperty->price = $request->price;
                 $newProperty->contactNumber = $request->phoneNumber;
-                $newProperty->location = $request->location;
+                $newProperty->beds = $request->beds;
+                $newProperty->baths = $request->baths;
+                $newProperty->lotArea = $request->lot;
+                $newProperty->street = $request->street;
+                $newProperty->brgy = $request->brgy;
+                $newProperty->city = $request->city;
+                $newProperty->province = $request->province;
+                $newProperty->zip = $request->zipcode;
                 $newProperty->otherDetails = $request->otherDetails;
                 $newProperty->type = $request->type;
                 $isSave =  $newProperty->save();
