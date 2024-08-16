@@ -53,6 +53,17 @@
             color: rgb(255, 255, 255);
             background: rgba(253, 245, 139, 0.349);
         }
+
+        .preview {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .preview img {
+            margin: 10px;
+            max-width: 200px;
+            max-height: 200px;
+        }
     </style>
 </head>
 
@@ -214,15 +225,17 @@
                                 <table class="table border mb-0">
                                     <thead class="table-light fw-semibold">
                                         <tr class="align-middle">
-                                            <th class="text-center">Property Name</th>
-                                            <th>Price</th>
-                                            <th class="text-center">Contact Number</th>
-                                            <th>Other Details</th>
-                                            <th class="text-center">Type</th>
+                                            <th class="text-center sortable" data-sort="propertyName">Property Name
+                                            </th>
+                                            <th class="sortable" data-sort="price">Price</th>
+                                            <th class="text-center sortable" data-sort="contactNumber">Contact Number
+                                            </th>
+                                            <th class="sortable" data-sort="otherDetails">Other Details</th>
+                                            <th class="text-center sortable" data-sort="type">Type</th>
                                             <th>Posted Date</th>
-                                            <th class="text-center">Image</th>
+                                            <th class="text-center sortable">Image/s</th>
                                             <th>Action</th>
-                                            <th class="text-center"></th>
+                                            <th class="text-center sortable"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -246,10 +259,13 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if (count($imgArray) > 0)
+                                                        <button class="btn btn-success text-white">
+                                                            View
+                                                        </button>
                                                     @else
                                                         <button class="btn btn-white" data-coreui-toggle="modal"
                                                             data-coreui-target="#addImageModal"
-                                                            onclick="updateAddImage('{{ $item->propertyName }}')">
+                                                            onclick="updateAddImage('{{ $item->propertyName }}',{{ $item->propertyID }})">
                                                             <img src="/addImage.svg" alt="" srcset="">
                                                         </button>
                                                     @endif
@@ -265,31 +281,30 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="pagination">
-                                            <ul class="pagination">
-                                                @for ($i = 1; $i <= $properties->lastPage(); $i++)
-                                                    @if ($i == 1)
-                                                        <li class="page-item " style="margin-left: 15px;">
-                                                            <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                                href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                        </li>
-                                                    @else
-                                                        <li class="page-item ">
-                                                            <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                                href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                        </li>
-                                                    @endif
-                                                @endfor
-                                            </ul>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="pagination">
+                                        <ul class="pagination">
+                                            @for ($i = 1; $i <= $properties->lastPage(); $i++)
+                                                @if ($i == 1)
+                                                    <li class="page-item " style="margin-left: 15px;">
+                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @else
+                                                    <li class="page-item ">
+                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
+                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
+                                                    </li>
+                                                @endif
+                                            @endfor
+                                        </ul>
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -314,7 +329,7 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="/agent_property" method="post">
+                <form action="/agent_property" method="post" enctype="multipart/form-data">
                     @method('post')
                     @csrf
                     <div class="modal-header">
@@ -328,11 +343,20 @@
                                     <label for="propertyName">Property Name:</label>
                                     <input style="cursor: not-allowed" readonly required type="text"
                                         name="propertyName" id="imagePropertyName" class="form-control mt-2">
+                                    <input type="hidden" name="propertyID" id="imagePid" value="">
+
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="images">Upload Images:</label>
+                                    <input class="form-control" accept="*.jpg,*.png,*.jpeg" name="images[]"
+                                        type="file" id="file-input" multiple>
+                                    <div class="preview" id="preview"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" name="btnAddProperty" value="yes"
+                            <button type="submit" name="btnAddPropertyImage" value="yes"
                                 class="btn btn-primary text-white">Yes, Proceed</button>
                             <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
                                 style="color:white !important;">Close</button>
@@ -452,9 +476,32 @@
         </div>
     </div>
     <script>
-        function updateAddImage(img) {
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const files = event.target.files;
+            const preview = document.getElementById('preview');
+            preview.innerHTML = ''; // Clear the current preview
+
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        preview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('File is not an image.');
+                }
+            });
+        });
+
+        function updateAddImage(img, id) {
             let imagePropertyName = document.getElementById('imagePropertyName');
             imagePropertyName.value = img;
+
+            let imagePid = document.getElementById('imagePid');
+            imagePid.value = id;
         }
 
         function deleteProp(id) {
@@ -475,6 +522,20 @@
             }, 500);
         </script>
         {{ session()->forget('successDeleteProp') }}
+    @endif
+    @if (session()->pull('successAddImage'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Added Property Image',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successAddImage') }}
     @endif
     @if (session()->pull('successAddProperty'))
         <script>

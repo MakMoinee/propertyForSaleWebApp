@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImageProperties;
+use App\Models\Properties;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WelcomeController extends Controller
 {
@@ -18,6 +21,13 @@ class WelcomeController extends Controller
                 return redirect("/agent_dashboard");
             }
         }
-        return view("welcome");
+
+        $allProps = DB::table('properties')
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        $allImages = json_decode(ImageProperties::all(), true);
+        return view("welcome", ['allProps' => $allProps, "allImages" => $allImages]);
     }
 }

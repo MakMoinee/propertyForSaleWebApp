@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ImageProperties;
 use App\Models\Properties;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -81,9 +82,64 @@ class AgentPropertyController extends Controller
                 } else {
                     session()->put("errorAddProperty", true);
                 }
+            } else if ($request->btnAddPropertyImage) {
+                $files = $request->file('images');
+                $fileNames = "";
+                $IsFailed = false;
+                $count = 1;
+                $data = array();
+                if ($files) {
+                    foreach ($request->file('images') as $file) {
+
+                        $mimeType = $file->getMimeType();
+                        if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
+                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/img_properties';
+                            $fileName = strtotime(now()) . "_" . $count .  "." . $file->getClientOriginalExtension();
+                            $file->move($destinationPath, $fileName);
+                            $data[] = $fileName;
+                            $count++;
+                            continue;
+                        } else {
+                            session()->put("errorSavingImg", true);
+                            break;
+                        }
+                    }
+                    if ($IsFailed) {
+                        return redirect("/agent_property");
+                    }
+
+                    $ifExist = json_decode(DB::table('image_properties')->where('propertyID', '=', $request->propertyID)->get(), true);
+                    if (count($ifExist) > 0) {
+
+                        try {
+                            $imagePaths = json_decode($ifExist[0]['imagePath'], true);
+                        } catch (Exception $e) {
+                        }
+
+
+                        $updateCount = DB::table('image_properties')->where('imageID', '=', $ifExist[0]['imageID'])->update([
+                            'imagePath' => $data,
+                        ]);
+                        if ($updateCount > 0) {
+                            session()->put("successAddImage", true);
+                        } else {
+                            session()->put("errorAddImage", true);
+                        }
+                    } else {
+                        $newImgProperty = new ImageProperties();
+                        $newImgProperty->propertyID = $request->propertyID;
+                        $newImgProperty->imagePath = implode(',', $data);
+                        $isSave = $newImgProperty->save();
+                        if ($isSave) {
+                            session()->put("successAddImage", true);
+                        } else {
+                            session()->put("errorAddImage", true);
+                        }
+                    }
+                } else {
+                    session()->put("errorImageEmpty", true);
+                }
             }
-
-
 
             return redirect("/agent_property");
         }
