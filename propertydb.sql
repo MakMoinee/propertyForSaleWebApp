@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 07/07/2024 01:11:26
+ Date: 07/09/2024 10:55:38
 */
 
 SET NAMES utf8mb4;
@@ -38,6 +38,25 @@ CREATE TABLE `failed_jobs`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for image_properties
+-- ----------------------------
+DROP TABLE IF EXISTS `image_properties`;
+CREATE TABLE `image_properties`  (
+  `imageID` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `propertyID` int NOT NULL,
+  `imagePath` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`imageID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of image_properties
+-- ----------------------------
+INSERT INTO `image_properties` VALUES (1, 1, '1723827193_1.PNG', '2024-08-16 16:53:13', '2024-08-16 16:53:13');
+INSERT INTO `image_properties` VALUES (2, 2, '1723829899_1.jpg', '2024-08-16 17:38:19', '2024-08-16 17:38:19');
+
+-- ----------------------------
 -- Table structure for migrations
 -- ----------------------------
 DROP TABLE IF EXISTS `migrations`;
@@ -46,7 +65,7 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
@@ -56,6 +75,8 @@ INSERT INTO `migrations` VALUES (2, '2014_10_12_100000_create_password_reset_tok
 INSERT INTO `migrations` VALUES (3, '2019_08_19_000000_create_failed_jobs_table', 1);
 INSERT INTO `migrations` VALUES (4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
 INSERT INTO `migrations` VALUES (6, '2024_05_11_155422_create_system_users_table', 2);
+INSERT INTO `migrations` VALUES (17, '2024_07_06_204008_create_properties_table', 3);
+INSERT INTO `migrations` VALUES (18, '2024_07_21_180805_create_image_properties_table', 3);
 
 -- ----------------------------
 -- Table structure for password_reset_tokens
@@ -97,6 +118,35 @@ CREATE TABLE `personal_access_tokens`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for properties
+-- ----------------------------
+DROP TABLE IF EXISTS `properties`;
+CREATE TABLE `properties`  (
+  `propertyID` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userID` int NOT NULL,
+  `propertyName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` decimal(12, 2) NOT NULL,
+  `contactNumber` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `street` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `brgy` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `province` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `beds` int NOT NULL,
+  `baths` int NOT NULL,
+  `lotArea` double(8, 2) NOT NULL,
+  `otherDetails` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`propertyID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of properties
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for system_users
 -- ----------------------------
 DROP TABLE IF EXISTS `system_users`;
@@ -120,13 +170,13 @@ CREATE TABLE `system_users`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`userID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of system_users
 -- ----------------------------
 INSERT INTO `system_users` VALUES (2, 'admin@bestproperties.ph', '$2y$12$6u3IGap/R8bUDNLocwXGVOj7UHslZ9dDzfiy6lsUat/hSLacMzB8e', 'Admin', 'Admin', 'Admin', 'sample', '+63', '9269440075', 'Male', '1998-10-13', 'Admin', NULL, 'Active Now', 'approved', NULL, '2024-06-05 18:49:14', '2024-06-05 18:49:14');
-INSERT INTO `system_users` VALUES (3, 'sample@gmail.com', '$2y$12$k92Qe8f5sAoQ/WOPBajg9eVrrRWUNQuIyWyrRUS5lm5ZZnAKkrkQu', 'John', 'Santos', 'Dela Cruz', 'sample address', '+63', '9630656135', 'Male', '2012-06-12', 'Client', NULL, 'Active Now', 'approved', NULL, '2024-06-10 19:28:49', '2024-06-10 19:28:49');
+INSERT INTO `system_users` VALUES (5, 'agent@gmail.com', '$2y$12$lIuzOWNnYec5OlYa/8fTYOHXEcn6oUeF8d2LvoUraoYxDqEq.Gy2i', 'John', 'Santos', 'Dela Cruz', 'Sample Address', '+63', '9269440075', 'Male', '1997-07-16', 'Agent', NULL, 'Active Now', 'approved', NULL, '2024-07-06 21:07:03', '2024-07-06 21:07:03');
 
 -- ----------------------------
 -- Table structure for users
