@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImageProperties;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClientHomeController extends Controller
 {
@@ -18,7 +20,14 @@ class ClientHomeController extends Controller
             if ($user['type'] != "Client") {
                 return redirect("/");
             }
-            return view('client.home');
+            $allProps = DB::table('properties')
+                ->orderBy('created_at', 'desc')
+                ->limit(3)
+                ->get();
+
+            $allImages = json_decode(ImageProperties::all(), true);
+
+            return view('client.home', ['allProps' => $allProps, "allImages" => $allImages]);
         }
         return redirect("/");
     }

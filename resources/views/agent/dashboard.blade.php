@@ -295,7 +295,7 @@
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLoginAdmin') }}
+        {{ session()->forget('successLoginAgent') }}
     @endif
 </body>
 

@@ -76,6 +76,7 @@ class LoginController extends Controller
                     session()->put("successLoginAgent", true);
                     return redirect("/agent_dashboard");
                 } else {
+                    session()->put("successLoginClient", true);
                     return redirect("/client_home");
                 }
             } else {

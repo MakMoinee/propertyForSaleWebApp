@@ -180,90 +180,93 @@
                 <div class="row">
                     @foreach ($allProps as $item)
                         <div class="col-md-4">
-                            <div class="card mb-4 rounded"
-                                style="cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <span class="badge bg-danger text-white"
-                                                style="float: left; position: absolute; padding: 5px;">Featured</span>
-                                            <span class="badge bg-violet text-white"
-                                                style="float: left; position: absolute; margin-top: 30px; padding: 5px;">For
-                                                {{ $item->type }}</span>
-                                            @foreach ($allImages as $img)
-                                                @if ($img['propertyID'] == $item->propertyID)
-                                                    <img src="/data/img_properties/{{ $img['imagePath'] }}"
-                                                        style="height: 200px;width: 100%;" alt=""
-                                                        srcset="" class="img-responsive rounded">
-                                                @endif
-                                            @endforeach
+                            <a data-target="#loginModal" data-toggle="modal">
+                                <div class="card mb-4 rounded"
+                                    style="cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <span class="badge bg-danger text-white"
+                                                    style="float: left; position: absolute; padding: 5px;">Featured</span>
+                                                <span class="badge bg-violet text-white"
+                                                    style="float: left; position: absolute; margin-top: 30px; padding: 5px;">For
+                                                    {{ $item->type }}</span>
+                                                @foreach ($allImages as $img)
+                                                    @if ($img['propertyID'] == $item->propertyID)
+                                                        <img src="/data/img_properties/{{ $img['imagePath'] }}"
+                                                            style="height: 200px;width: 100%;" alt=""
+                                                            srcset="" class="img-responsive rounded">
+                                                    @endif
+                                                @endforeach
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h5>
-                                                <strong>
-                                                    {{ $item->propertyName }}
-                                                </strong>
-                                            </h5>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <img src="/map.svg" alt="" srcset=""
-                                                        class="mt-1 float-left position-absolute">
-                                                    <h6 class="ml-4 mt-1">
-                                                        {{ $item->street }}, {{ $item->brgy }}, {{ $item->city }},
-                                                        {{ $item->province }} {{ $item->zip }}
-                                                    </h6>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h5>
+                                                    <strong>
+                                                        {{ $item->propertyName }}
+                                                    </strong>
+                                                </h5>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <img src="/map.svg" alt="" srcset=""
+                                                            class="mt-1 float-left position-absolute">
+                                                        <h6 class="ml-4 mt-1">
+                                                            {{ $item->street }}, {{ $item->brgy }},
+                                                            {{ $item->city }},
+                                                            {{ $item->province }} {{ $item->zip }}
+                                                        </h6>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h4 class="text-danger">
-                                                <strong>
-                                                    P{{ number_format($item->price, 1) }}
-                                                </strong>
-                                            </h4>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h4 class="text-danger">
+                                                    <strong>
+                                                        P{{ number_format($item->price, 1) }}
+                                                    </strong>
+                                                </h4>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <img src="/bed.svg" alt="" srcset=""
-                                                class="float-left position-absolute">
-                                            <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                Beds: <strong>{{ $item->beds }}</strong>
-                                            </h6>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <img src="/bed.svg" alt="" srcset=""
+                                                    class="float-left position-absolute">
+                                                <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
+                                                    Beds: <strong>{{ $item->beds }}</strong>
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <img src="/bath.svg" alt="" srcset=""
+                                                    class="float-left position-absolute">
+                                                <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
+                                                    Baths: <strong>{{ $item->baths }}</strong>
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <img src="/area.svg" alt="" srcset=""
+                                                    class="float-left position-absolute">
+                                                <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
+                                                    Sqm: <strong>{{ $item->lotArea }}</strong>
+                                                </h6>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-4">
-                                            <img src="/bath.svg" alt="" srcset=""
-                                                class="float-left position-absolute">
-                                            <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                Baths: <strong>{{ $item->baths }}</strong>
-                                            </h6>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <img src="/area.svg" alt="" srcset=""
-                                                class="float-left position-absolute">
-                                            <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                Sqm: <strong>{{ $item->lotArea }}</strong>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h6 class="mt-1" style="font-size: 12px !important;">
-                                                Posted:
-                                                <strong>{{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}</strong>
-                                            </h6>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h6 class="mt-1" style="font-size: 12px !important;">
+                                                    Posted:
+                                                    <strong>{{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}</strong>
+                                                </h6>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
 
