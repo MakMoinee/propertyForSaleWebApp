@@ -19,6 +19,8 @@ class WelcomeController extends Controller
                 return redirect("/admin_dashboard");
             } else if ($user['type'] == "Agent") {
                 return redirect("/agent_dashboard");
+            } else if ($user['type'] == "Client") {
+                return redirect("/client_home");
             }
         }
 
