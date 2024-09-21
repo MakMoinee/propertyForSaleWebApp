@@ -149,7 +149,7 @@
                             <img src="/cebu.jpg" width="120px" height="120px" alt=""
                                 class="img-responsive rounded-circle">
                             <br>
-                            <h5 class="mt-2">
+                            <h5 class="mt-2"> 
                                 <strong>
                                     {{ $item->province }}
                                 </strong>
