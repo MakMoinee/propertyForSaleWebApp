@@ -26,8 +26,9 @@ class ClientHomeController extends Controller
                 ->get();
 
             $allImages = json_decode(ImageProperties::all(), true);
+            $allProv = DB::table('properties')->distinct('province')->get();
 
-            return view('client.home', ['allProps' => $allProps, "allImages" => $allImages]);
+            return view('client.home', ['allProps' => $allProps, "allImages" => $allImages,'allProv'=>$allProv]);
         }
         return redirect("/");
     }

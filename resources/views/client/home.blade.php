@@ -55,6 +55,11 @@
             color: var(--dark);
             font-weight: 500;
         }
+
+        .justify-text {
+            text-align: justify;
+            text-indent: 30px;
+        }
     </style>
 </head>
 
@@ -118,9 +123,10 @@
                 <div class="col-md-6 p-5 mt-lg-5">
                     <h1 class="display-5 animated fadeIn mb-4">Find A <span class="text-primary">Perfect Home</span> To
                         Live With Your Family</h1>
-                    <p class="animated fadeIn mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet
-                        sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                    <a href="" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Get Started</a>
+                    <p class="animated fadeIn mb-4 pb-2">Discover your family's dream home at BestProperties.ph, where
+                        comfort, safety, and the perfect living space come together. Start your journey to a better life
+                        with us today!</p>
+                    <a href="#pl" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Get Started</a>
                 </div>
                 <div class="col-md-6 animated fadeIn">
                     <div class="owl-carousel header-carousel">
@@ -138,7 +144,7 @@
 
 
         <!-- Search Start -->
-        <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+        <div id="search" class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
             <div class="container">
                 <div class="row g-2">
                     <div class="col-md-10">
@@ -150,17 +156,16 @@
                             <div class="col-md-4">
                                 <select class="form-select border-0 py-3">
                                     <option selected>Property Type</option>
-                                    <option value="1">Property Type 1</option>
-                                    <option value="2">Property Type 2</option>
-                                    <option value="3">Property Type 3</option>
+                                    <option value="rent">For Rent</option>
+                                    <option value="sale">For Sale</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <select class="form-select border-0 py-3">
                                     <option selected>Location</option>
-                                    <option value="1">Location 1</option>
-                                    <option value="2">Location 2</option>
-                                    <option value="3">Location 3</option>
+                                    @foreach ($allProv as $item)
+                                        <option value="{{ $item->province }}">{{ $item->province }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -186,12 +191,15 @@
                     </div>
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                         <h1 class="mb-4">#1 Place To Find The Perfect Property</h1>
-                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet
-                            diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna
-                            dolore erat amet</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Tempor erat elitr rebum at clita</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Aliqu diam amet diam et eos</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Clita duo justo magna dolore erat amet</p>
+                        <p class="mb-4 justify-text">At BestProperties.ph</span>, we understand how important finding
+                            the
+                            right property
+                            is for you, whether it's your dream home, an ideal investment, or a prime commercial space.
+                            Our platform brings together the most sought-after listings in the country, providing a
+                            seamless and user-friendly experience. With advanced search filters, detailed property
+                            insights, and real-time updates, you can be sure that you're getting the best options
+                            available. Join thousands of satisfied users and make your property search easier, faster,
+                            and more efficient with us—your #1 place to find the perfect property!</p>
                         <a class="btn btn-primary py-3 px-5 mt-3" href="">Read More</a>
                     </div>
                 </div>
@@ -201,14 +209,15 @@
 
 
         <!-- Property List Start -->
-        <div class="container-xxl py-5">
+        <div class="container-xxl py-5" id="pl">
             <div class="container">
                 <div class="row g-0 gx-5 align-items-end">
                     <div class="col-lg-6">
                         <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
                             <h1 class="mb-3">Property Listing</h1>
-                            <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero
-                                ipsum sit eirmod sit diam justo sed rebum.</p>
+                            <p>Looking for your next home or investment? Discover a wide range of top-rated properties
+                                at BestProperties.ph, where finding the perfect match is fast, easy, and tailored to
+                                your needs!</p>
                         </div>
                     </div>
                     <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
@@ -216,12 +225,6 @@
                             <li class="nav-item me-2">
                                 <a class="btn btn-outline-primary active" data-bs-toggle="pill"
                                     href="#tab-1">Featured</a>
-                            </li>
-                            <li class="nav-item me-2">
-                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">For Sale</a>
-                            </li>
-                            <li class="nav-item me-0">
-                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">For Rent</a>
                             </li>
                         </ul>
                     </div>
@@ -280,129 +283,7 @@
                                 </div>
                             @endforeach
                             <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-                                <a class="btn btn-primary py-3 px-5" href="/property_list">Browse More Property</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-2" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            @foreach ($allProps as $item)
-                                @if ($item->type == 'sale')
-                                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                        <div class="property-item rounded overflow-hidden">
-                                            <div class="position-relative overflow-hidden">
-                                                @foreach ($allImages as $imgItem)
-                                                    @if ($imgItem['propertyID'] == $item->propertyID)
-                                                        <a href="">
-                                                            <img class="img-fluid"
-                                                                src="/data/img_properties/{{ $imgItem['imagePath'] }}"
-                                                                alt="">
-                                                        </a>
-                                                    @endif
-                                                @endforeach
-                                                <div
-                                                    class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                                                    @if ($item->type == 'sale')
-                                                        For Sale
-                                                    @else
-                                                        @if ($item->type == 'rent')
-                                                            For Rent
-                                                        @else
-                                                            Sold Out
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                                <div
-                                                    class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
-                                                    House</div>
-                                            </div>
-                                            <div class="p-4 pb-0">
-                                                <h5 class="text-primary mb-3">P{{ number_format($item->price, 1) }}
-                                                </h5>
-                                                <a class="d-block h5 mb-2"
-                                                    href="">{{ $item->propertyName }}</a>
-                                                <p><i class="fa fa-map-marker-alt text-primary me-2"></i>
-                                                    {{ $item->street }}, {{ $item->brgy }}, {{ $item->city }},
-                                                    {{ $item->province }} {{ $item->zip }}</p>
-                                            </div>
-                                            <div class="d-flex border-top">
-                                                <small class="flex-fill text-center border-end py-2"><i
-                                                        class="fa fa-ruler-combined text-primary me-2"></i>{{ $item->lotArea }}
-                                                    Sqft</small>
-                                                <small class="flex-fill text-center border-end py-2"><i
-                                                        class="fa fa-bed text-primary me-2"></i>{{ $item->beds }}
-                                                    Bed</small>
-                                                <small class="flex-fill text-center py-2"><i
-                                                        class="fa fa-bath text-primary me-2"></i>{{ $item->baths }}
-                                                    Bath</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                            <div class="col-12 text-center">
-                                <a class="btn btn-primary py-3 px-5" href="/property_list">Browse More Property</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="tab-3" class="tab-pane fade show p-0">
-                        <div class="row g-4">
-                            @foreach ($allProps as $item)
-                                @if ($item->type == 'rent')
-                                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                        <div class="property-item rounded overflow-hidden">
-                                            <div class="position-relative overflow-hidden">
-                                                @foreach ($allImages as $imgItem)
-                                                    @if ($imgItem['propertyID'] == $item->propertyID)
-                                                        <a href="">
-                                                            <img class="img-fluid"
-                                                                src="/data/img_properties/{{ $imgItem['imagePath'] }}"
-                                                                alt="">
-                                                        </a>
-                                                    @endif
-                                                @endforeach
-                                                <div
-                                                    class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                                                    @if ($item->type == 'sale')
-                                                        For Sale
-                                                    @else
-                                                        @if ($item->type == 'rent')
-                                                            For Rent
-                                                        @else
-                                                            Sold Out
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                                <div
-                                                    class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
-                                                    House</div>
-                                            </div>
-                                            <div class="p-4 pb-0">
-                                                <h5 class="text-primary mb-3">P{{ number_format($item->price, 1) }}
-                                                </h5>
-                                                <a class="d-block h5 mb-2"
-                                                    href="">{{ $item->propertyName }}</a>
-                                                <p><i class="fa fa-map-marker-alt text-primary me-2"></i>
-                                                    {{ $item->street }}, {{ $item->brgy }}, {{ $item->city }},
-                                                    {{ $item->province }} {{ $item->zip }}</p>
-                                            </div>
-                                            <div class="d-flex border-top">
-                                                <small class="flex-fill text-center border-end py-2"><i
-                                                        class="fa fa-ruler-combined text-primary me-2"></i>{{ $item->lotArea }}
-                                                    Sqft</small>
-                                                <small class="flex-fill text-center border-end py-2"><i
-                                                        class="fa fa-bed text-primary me-2"></i>{{ $item->beds }}
-                                                    Bed</small>
-                                                <small class="flex-fill text-center py-2"><i
-                                                        class="fa fa-bath text-primary me-2"></i>{{ $item->baths }}
-                                                    Bath</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                            <div class="col-12 text-center">
-                                <a class="btn btn-primary py-3 px-5" href="/property_list">Browse More Property</a>
+                                <a class="btn btn-primary py-3 px-5" href="/property_list#search">Browse More Property</a>
                             </div>
                         </div>
                     </div>

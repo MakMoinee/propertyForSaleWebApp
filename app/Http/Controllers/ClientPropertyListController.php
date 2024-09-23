@@ -55,7 +55,22 @@ class ClientPropertyListController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if (session()->exists("users")) {
+            $user = session()->pull("users");
+            session()->put("users", $user);
+
+            if ($user['type'] != "Client") {
+                return redirect("/");
+            }
+
+            $data = DB::table('properties')->where('propertyID', '=', $id)->get();
+            $imgData = DB::table('image_properties')->where('propertyID', '=', $id)->get();
+
+            // dd([$data,$imgData]);
+
+            return view('client.property_detail', ['details' => $data, 'imgData' => $imgData]);
+        }
+        return redirect("/");
     }
 
     /**

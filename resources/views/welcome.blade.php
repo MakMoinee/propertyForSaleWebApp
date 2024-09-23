@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="utf-8">
+    <link href="/ph.png" rel="icon">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Titus Silver">
@@ -79,6 +80,7 @@
                         data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
                         <h1><strong>Find The Best Property in the Philippines </strong></h1>
                         <p>Discover the best for you and your needs</p>
+                        <button class="btn btn-primary" data-target="#loginModal" data-toggle="modal">Login</button>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 banRight"
                         data-scroll-reveal="enter right move 30px over 0.6s after 0.4s">
@@ -149,7 +151,7 @@
                             <img src="/cebu.jpg" width="120px" height="120px" alt=""
                                 class="img-responsive rounded-circle">
                             <br>
-                            <h5 class="mt-2"> 
+                            <h5 class="mt-2">
                                 <strong>
                                     {{ $item->province }}
                                 </strong>
