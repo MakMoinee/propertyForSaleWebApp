@@ -166,11 +166,20 @@
                         <h6> Area: {{ $details[0]->lotArea }} sq2</h6>
                         <h6> Baths: {{ $details[0]->baths }}</h6>
                         <h6> Beds: {{ $details[0]->beds }}</h6>
+                        <h6> Contact Number: (+63) {{ $details[0]->contactNumber }}</h6>
                         @if ($details[0]->otherDetails != 'None')
                             <h6> Other Details: {{ $details[0]->otherDetails }}</h6>
                         @endif
                         <h6 style="color: red;"> Price: P{{ number_format($details[0]->price, 1) }}</h6>
-                        <button class="btn btn-danger align-bottom" style="margin-top: 60px;">Buy Now</button>
+                        <form action="/charge" method="post">
+                            @csrf
+                            <input type="hidden" name="amount" value="{{ $details[0]->price }}">
+                            <button class="btn btn-danger align-bottom" style="margin-top: 60px;" name="submit"
+                                value="Pay Now">Buy Now</button>
+                        </form>
+                        <br>
+                        <img class="img-fluid" src="/visa.png" style="width: auto; height: 50px; margin-top: 20px;"
+                            alt="" srcset="">
                     </div>
                 </div>
             </div>

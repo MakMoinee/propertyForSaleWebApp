@@ -9,6 +9,7 @@ use App\Http\Controllers\ClientHomeController;
 use App\Http\Controllers\ClientPropertyListController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +35,5 @@ Route::resource("/agent_property", AgentPropertyController::class);
 Route::get("/logout", [LogoutController::class, 'index']);
 Route::resource("/client_home", ClientHomeController::class);
 Route::resource("/property_list", ClientPropertyListController::class);
+Route::post("/charge", [PaymentController::class, 'charge']);
+Route::post("/success", [PaymentController::class, 'success']);

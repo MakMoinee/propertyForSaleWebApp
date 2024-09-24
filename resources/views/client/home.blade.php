@@ -263,7 +263,7 @@
                                         </div>
                                         <div class="p-4 pb-0">
                                             <h5 class="text-primary mb-3">P{{ number_format($item->price, 1) }}</h5>
-                                            <a class="d-block h5 mb-2" href="">{{ $item->propertyName }}</a>
+                                            <a class="d-block h5 mb-2" href="/property_list/{{$item->propertyID}}#pdetails">{{ $item->propertyName }}</a>
                                             <p><i class="fa fa-map-marker-alt text-primary me-2"></i>
                                                 {{ $item->street }}, {{ $item->brgy }}, {{ $item->city }},
                                                 {{ $item->province }} {{ $item->zip }}</p>
