@@ -103,7 +103,7 @@ class AgentPropertyController extends Controller
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
                             $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/img_properties';
                             if (env('APP_ENV') == 'prod') {
-                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public/' . "/data/img_properties/";
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public' . "/data/img_properties/";
                             } else {
                                 $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/";
                             }
@@ -203,7 +203,7 @@ class AgentPropertyController extends Controller
                         $dataImg = explode(',', $request->origImagePath);
                         foreach ($dataImg as $ai) {
                             if (env('APP_ENV') == 'prod') {
-                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public/' . "/data/img_properties/" . $ai;
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public' . "/data/img_properties/" . $ai;
                             } else {
                                 $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/" . $ai;
                             }
