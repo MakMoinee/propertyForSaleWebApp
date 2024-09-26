@@ -182,7 +182,8 @@
                 <div class="row">
                     @foreach ($allProps as $item)
                         <div class="col-md-4">
-                            <a data-target="#loginModal" data-toggle="modal">
+                            <a data-target="#loginModal" data-toggle="modal"
+                                onclick="setRedirectTo({{ $item->propertyID }})">
                                 <div class="card mb-4 rounded"
                                     style="cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
                                     <div class="card-body">
@@ -328,6 +329,7 @@
                         <div class="form-group">
                             <label for="password">Password:<span class="text-danger">*</span></label>
                             <input required type="password" name="password" id="" class="form-control">
+                            <input type="hidden" id="redirectTo" name="redirectTo" value="">
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -459,6 +461,11 @@
         function genderClick(data) {
             let gender2 = document.getElementById('gender2');
             gender2.value = data;
+        }
+
+        function setRedirectTo(propertyId) {
+            let redirectTo = document.getElementById('redirectTo');
+            redirectTo.value = `/property_list/${propertyId}#pdetails`;
         }
     </script>
 

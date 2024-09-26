@@ -25,10 +25,12 @@ class ClientHomeController extends Controller
                 ->limit(3)
                 ->get();
 
+            $allAgents = DB::table('system_users')->where('type', '=', 'Agent')->where('approval', '=', 'approved')->orderBy('created_at', 'desc')->limit(5)->get();
+
             $allImages = json_decode(ImageProperties::all(), true);
             $allProv = DB::table('properties')->distinct('province')->get();
 
-            return view('client.home', ['allProps' => $allProps, "allImages" => $allImages,'allProv'=>$allProv]);
+            return view('client.home', ['allProps' => $allProps, "allImages" => $allImages, 'allProv' => $allProv, 'allAgents' => $allAgents]);
         }
         return redirect("/");
     }
