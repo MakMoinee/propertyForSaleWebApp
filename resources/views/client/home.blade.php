@@ -304,15 +304,21 @@
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Property Agents</h1>
-                    <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit
-                        eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
+                    <p>Connect with experienced and trusted property agents who specialize in helping you find your
+                        ideal home or investment. Whether you’re looking to buy or rent, our agents are here to guide
+                        you every step of the way with personalized service and expert advice.</p>
                 </div>
                 <div class="row g-4">
                     @foreach ($allAgents as $item)
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="team-item rounded overflow-hidden">
                                 <div class="position-relative">
-                                    <img class="img-fluid" src="/asset3/img/team-1.jpg" alt="">
+                                    @if ($item->gender == 'Male')
+                                        <img class="img-fluid" src="/boy.png" alt="">
+                                    @else
+                                        <img class="img-fluid" src="/woman.png" alt="">
+                                    @endif
+
                                     <div
                                         class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
                                         <a class="btn btn-square mx-1" href=""><i
@@ -330,6 +336,10 @@
                             </div>
                         </div>
                     @endforeach
+                    <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <a class="btn btn-primary py-3 px-5" href="/property_agents#search">Browse More
+                            Property Agents</a>
+                    </div>
                 </div>
             </div>
         </div>
