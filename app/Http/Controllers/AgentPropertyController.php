@@ -102,6 +102,11 @@ class AgentPropertyController extends Controller
                         $mimeType = $file->getMimeType();
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
                             $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/img_properties';
+                            if (env('APP_ENV') == 'prod') {
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public/' . "/data/img_properties/";
+                            } else {
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/";
+                            }
                             $fileName = strtotime(now()) . "_" . $count .  "." . $file->getClientOriginalExtension();
                             $file->move($destinationPath, $fileName);
                             $data[] = $fileName;
@@ -197,7 +202,11 @@ class AgentPropertyController extends Controller
                     if ($originalDirectoryPath) {
                         $dataImg = explode(',', $request->origImagePath);
                         foreach ($dataImg as $ai) {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/" . $ai;
+                            if (env('APP_ENV') == 'prod') {
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public/' . "/data/img_properties/" . $ai;
+                            } else {
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/" . $ai;
+                            }
                             File::delete($destinationPath);
                         }
                     }
