@@ -101,7 +101,6 @@ class AgentPropertyController extends Controller
 
                         $mimeType = $file->getMimeType();
                         if ($mimeType == "image/png" || $mimeType == "image/jpg" || $mimeType == "image/JPG" || $mimeType == "image/JPEG" || $mimeType == "image/jpeg" || $mimeType == "image/PNG") {
-                            $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/data/img_properties';
                             if (env('APP_ENV') == 'prod') {
                                 $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public' . "/data/img_properties/";
                             } else {
