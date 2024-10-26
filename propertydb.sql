@@ -11,31 +11,11 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 07/09/2024 10:55:38
+ Date: 27/10/2024 04:23:54
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for failed_jobs
--- ----------------------------
-DROP TABLE IF EXISTS `failed_jobs`;
-CREATE TABLE `failed_jobs`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `failed_jobs_uuid_unique`(`uuid` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of failed_jobs
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for image_properties
@@ -48,13 +28,11 @@ CREATE TABLE `image_properties`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`imageID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of image_properties
 -- ----------------------------
-INSERT INTO `image_properties` VALUES (1, 1, '1723827193_1.PNG', '2024-08-16 16:53:13', '2024-08-16 16:53:13');
-INSERT INTO `image_properties` VALUES (2, 2, '1723829899_1.jpg', '2024-08-16 17:38:19', '2024-08-16 17:38:19');
 
 -- ----------------------------
 -- Table structure for migrations
@@ -65,32 +43,38 @@ CREATE TABLE `migrations`  (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of migrations
 -- ----------------------------
-INSERT INTO `migrations` VALUES (1, '2014_10_12_000000_create_users_table', 1);
-INSERT INTO `migrations` VALUES (2, '2014_10_12_100000_create_password_reset_tokens_table', 1);
-INSERT INTO `migrations` VALUES (3, '2019_08_19_000000_create_failed_jobs_table', 1);
-INSERT INTO `migrations` VALUES (4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
-INSERT INTO `migrations` VALUES (6, '2024_05_11_155422_create_system_users_table', 2);
-INSERT INTO `migrations` VALUES (17, '2024_07_06_204008_create_properties_table', 3);
-INSERT INTO `migrations` VALUES (18, '2024_07_21_180805_create_image_properties_table', 3);
+INSERT INTO `migrations` VALUES (1, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+INSERT INTO `migrations` VALUES (2, '2024_05_11_155422_create_system_users_table', 1);
+INSERT INTO `migrations` VALUES (3, '2024_07_06_204008_create_properties_table', 1);
+INSERT INTO `migrations` VALUES (4, '2024_07_21_180805_create_image_properties_table', 1);
+INSERT INTO `migrations` VALUES (5, '2024_09_24_223843_create_order_payments_table', 1);
 
 -- ----------------------------
--- Table structure for password_reset_tokens
+-- Table structure for order_payments
 -- ----------------------------
-DROP TABLE IF EXISTS `password_reset_tokens`;
-CREATE TABLE `password_reset_tokens`  (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+DROP TABLE IF EXISTS `order_payments`;
+CREATE TABLE `order_payments`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userID` int NOT NULL,
+  `propertyID` int NOT NULL,
+  `payment_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` double(10, 2) NOT NULL,
+  `currency` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`email`) USING BTREE
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of password_reset_tokens
+-- Records of order_payments
 -- ----------------------------
 
 -- ----------------------------
@@ -111,7 +95,7 @@ CREATE TABLE `personal_access_tokens`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `personal_access_tokens_token_unique`(`token` ASC) USING BTREE,
   INDEX `personal_access_tokens_tokenable_type_tokenable_id_index`(`tokenable_type` ASC, `tokenable_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of personal_access_tokens
@@ -140,7 +124,7 @@ CREATE TABLE `properties`  (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`propertyID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of properties
@@ -165,38 +149,28 @@ CREATE TABLE `system_users`  (
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `profile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `approval` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `approval` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `licenseImage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`userID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of system_users
 -- ----------------------------
 INSERT INTO `system_users` VALUES (2, 'admin@bestproperties.ph', '$2y$12$6u3IGap/R8bUDNLocwXGVOj7UHslZ9dDzfiy6lsUat/hSLacMzB8e', 'Admin', 'Admin', 'Admin', 'sample', '+63', '9269440075', 'Male', '1998-10-13', 'Admin', NULL, 'Active Now', 'approved', NULL, '2024-06-05 18:49:14', '2024-06-05 18:49:14');
-INSERT INTO `system_users` VALUES (5, 'agent@gmail.com', '$2y$12$lIuzOWNnYec5OlYa/8fTYOHXEcn6oUeF8d2LvoUraoYxDqEq.Gy2i', 'John', 'Santos', 'Dela Cruz', 'Sample Address', '+63', '9269440075', 'Male', '1997-07-16', 'Agent', NULL, 'Active Now', 'approved', NULL, '2024-07-06 21:07:03', '2024-07-06 21:07:03');
 
 -- ----------------------------
--- Table structure for users
+-- View structure for vwagentsales
 -- ----------------------------
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `users_email_unique`(`email` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+DROP VIEW IF EXISTS `vwagentsales`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwagentsales` AS select `properties`.`propertyID` AS `propertyID`,`properties`.`propertyName` AS `propertyName`,`properties`.`contactNumber` AS `contactNumber`,`properties`.`street` AS `street`,`properties`.`brgy` AS `brgy`,`properties`.`city` AS `city`,`properties`.`province` AS `province`,`properties`.`zip` AS `zip`,`properties`.`beds` AS `beds`,`properties`.`baths` AS `baths`,`properties`.`lotArea` AS `lotArea`,`properties`.`otherDetails` AS `otherDetails`,`properties`.`type` AS `type`,`order_payments`.`userID` AS `userID`,`order_payments`.`payment_id` AS `payment_id`,`order_payments`.`amount` AS `amount`,`order_payments`.`payment_status` AS `payment_status`,`system_users`.`userID` AS `myID`,`order_payments`.`created_at` AS `paymentDate`,`order_payments`.`payer_email` AS `payer_email` from ((`order_payments` join `properties` on((`order_payments`.`propertyID` = `properties`.`propertyID`))) join `system_users` on((`properties`.`userID` = `system_users`.`userID`)));
 
 -- ----------------------------
--- Records of users
+-- View structure for vwmyproperties
 -- ----------------------------
+DROP VIEW IF EXISTS `vwmyproperties`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vwmyproperties` AS select `properties`.`propertyID` AS `propertyID`,`properties`.`propertyName` AS `propertyName`,`properties`.`price` AS `price`,`properties`.`contactNumber` AS `contactNumber`,`properties`.`street` AS `street`,`properties`.`brgy` AS `brgy`,`properties`.`city` AS `city`,`properties`.`province` AS `province`,`properties`.`zip` AS `zip`,`properties`.`beds` AS `beds`,`properties`.`baths` AS `baths`,`properties`.`lotArea` AS `lotArea`,`properties`.`otherDetails` AS `otherDetails`,`properties`.`type` AS `type`,`order_payments`.`userID` AS `userID`,`order_payments`.`amount` AS `amount`,`order_payments`.`payment_status` AS `payment_status`,`order_payments`.`created_at` AS `created_at` from (`order_payments` join `properties` on((`order_payments`.`propertyID` = `properties`.`propertyID`)));
 
 SET FOREIGN_KEY_CHECKS = 1;
