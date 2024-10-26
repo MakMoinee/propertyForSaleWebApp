@@ -94,18 +94,12 @@
                                 Properties</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="property-list.html" class="dropdown-item active">Property List</a>
-                                <a href="property-type.html" class="dropdown-item">Property Type</a>
-                                <a href="property-agent.html" class="dropdown-item">Property Agent</a>
+                                <a href="/owned_properties" class="dropdown-item">Owned Properties</a>
+                                <a href="/property_agents" class="dropdown-item">Property Agent</a>
                             </div>
                         </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Error</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+
+                        <a href="/my_account" class="nav-item nav-link">My Account</a>
                     </div>
                     <a href="" class="btn btn-primary px-3 d-none d-lg-flex" data-bs-target="#logoutModal"
                         data-bs-toggle="modal">Logout</a>
@@ -143,8 +137,7 @@
                     <div class="col-md-10">
                         <div class="row g-2">
                             <div class="col-md-4">
-                                <input type="text" class="form-control border-0 py-3"
-                                    placeholder="Search Keyword">
+                                <input type="text" class="form-control border-0 py-3" placeholder="Search Keyword">
                             </div>
                             <div class="col-md-4">
                                 <select class="form-select border-0 py-3">
@@ -214,15 +207,21 @@
                                             @endforeach
                                             <div
                                                 class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                                                @if ($item->type == 'sale')
-                                                    For Sale
-                                                @else
-                                                    @if ($item->type == 'rent')
-                                                        For Rent
+                                                @foreach ($allPayments as $p)
+                                                    @if ($p['propertyID'] == $item->propertyID)
+                                                        <s>Sold Out</s>
                                                     @else
-                                                        Sold Out
+                                                        @if ($item->type == 'sale')
+                                                            For Sale
+                                                        @else
+                                                            @if ($item->type == 'rent')
+                                                                For Rent
+                                                            @else
+                                                                Sold Out
+                                                            @endif
+                                                        @endif
                                                     @endif
-                                                @endif
+                                                @endforeach
                                             </div>
                                             <div
                                                 class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
@@ -382,34 +381,6 @@
         </div>
         <!-- Property List End -->
 
-
-        <!-- Call to Action Start -->
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="bg-light rounded p-3">
-                    <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
-                        <div class="row g-5 align-items-center">
-                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                                <img class="img-fluid rounded w-100" src="/asset3/img/call-to-action.jpg"
-                                    alt="">
-                            </div>
-                            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                                <div class="mb-4">
-                                    <h1 class="mb-3">Contact With Our Certified Agent</h1>
-                                    <p>Eirmod sed ipsum dolor sit rebum magna erat. Tempor lorem kasd vero ipsum sit sit
-                                        diam justo sed vero dolor duo.</p>
-                                </div>
-                                <a href="" class="btn btn-primary py-3 px-4 me-2"><i
-                                        class="fa fa-phone-alt me-2"></i>Make A Call</a>
-                                <a href="" class="btn btn-dark py-3 px-4"><i
-                                        class="fa fa-calendar-alt me-2"></i>Get Appoinment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Call to Action End -->
 
 
         <!-- Footer Start -->

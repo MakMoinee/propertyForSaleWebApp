@@ -18,21 +18,24 @@
         rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/asset3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0//asset3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
     <link href="/asset3/lib/animate/animate.min.css" rel="stylesheet">
     <link href="/asset3/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/asset3/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
     <link href="/asset3/css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        body {
+            background-color: white;
+        }
+
         .bg-primary {
             background-color: #e60000 !important;
         }
@@ -74,7 +77,7 @@
         <div id="spinner"
             class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-
+                <span class="sr-only"></span>
             </div>
         </div>
         <!-- Spinner End -->
@@ -87,7 +90,7 @@
                     <div class="icon p-2 me-2">
                         <img class="img-fluid" src="/ph.png" alt="Icon" style="width: 30px; height: 30px;">
                     </div>
-                    <h1 class="m-0 text-primary">BestProperties</h1>
+                    <h1 class="m-0 text-primary">BestProperties.ph</h1>
                 </a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse"
                     data-bs-target="#navbarCollapse">
@@ -96,16 +99,16 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="/client_home" class="nav-item nav-link ">Home</a>
+                        <a href="#about" class="nav-item nav-link">About</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">My
-                                Properties</a>
+                            <a href="#" class="nav-link dropdown-toggle active"
+                                data-bs-toggle="dropdown">Property</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="/property_list#search" class="dropdown-item">Property List</a>
                                 <a href="/owned_properties" class="dropdown-item">Owned Properties</a>
-                                <a href="/property_agents" class="dropdown-item">Property Agent</a>
+                                <a href="/property_agents" class="dropdown-item active">Property Agent</a>
                             </div>
                         </div>
-                        
                         <a href="/my_account" class="nav-item nav-link">My Account</a>
                     </div>
                     <a href="" class="btn btn-primary px-3 d-none d-lg-flex" data-bs-target="#logoutModal"
@@ -116,89 +119,46 @@
         <!-- Navbar End -->
 
 
-        <!-- Header Start -->
-        <div id="hs" class="container-fluid header bg-white p-0">
-            <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
-                <div class="col-md-6 p-5 mt-lg-5">
-                    <h1 class="display-5 animated fadeIn mb-4">Property Details</h1>
-                    <nav aria-label="breadcrumb animated fadeIn">
-                        <ol class="breadcrumb text-uppercase">
-                            <li class="breadcrumb-item"><a href="/client_home">Home</a></li>
-                            <li class="breadcrumb-item text-body">Property List</li>
-                            <li class="breadcrumb-item text-body active" aria-current="page">Property Detail</li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-md-6 animated fadeIn">
-                    <img class="img-fluid" src="/asset3/img/header.jpg" alt="">
-                </div>
-            </div>
-        </div>
-        <!-- Header End -->
-        <!-- Search Start -->
-        <div id="search" class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s"
-            style="padding: 35px;">
+        <!-- Team Start -->
+        <div class="container-xxl py-5">
             <div class="container">
-                <div class="row g-2">
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                    <h1 class="mb-3">Property Agents</h1>
+                    <p>Connect with experienced and trusted property agents who specialize in helping you find your
+                        ideal home or investment. Whether you’re looking to buy or rent, our agents are here to guide
+                        you every step of the way with personalized service and expert advice.</p>
                 </div>
-            </div>
-        </div>
-        <!-- Search End -->
+                <div class="row g-4">
+                    @foreach ($allAgents as $item)
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="team-item rounded overflow-hidden">
+                                <div class="position-relative">
+                                    @if ($item->gender == 'Male')
+                                        <img class="img-fluid" src="/boy.png" alt="">
+                                    @else
+                                        <img class="img-fluid" src="/woman.png" alt="">
+                                    @endif
 
-        <!-- Property List Start -->
-        <div class="container-xxl py-5" id="pdetails">
-            <div class="container">
-                <div class="row g-0 gx-5 align-items-end">
-                    <div class="col-lg-6">
-                        <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                            <h1 class="mb-3">{{ $details[0]->propertyName }}</h1>
+                                    <div
+                                        class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                        <a class="btn btn-square mx-1" href=""><i
+                                                class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                        <a class="btn btn-square mx-1" href=""><i
+                                                class="fab fa-instagram"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center p-4 mt-3">
+                                    <h5 class="fw-bold mb-0">{{ $item->firstName }} {{ $item->middleName }}
+                                        {{ $item->lastName }}</h5>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-
-                    </div>
-                </div>
-                <div class="row g-0 gx-5 align-items-start">
-                    <div class="col-lg-6">
-                        <img class="img-fluid wow fadeInUp" data-wow-delay="0.1s"
-                            src="/data/img_properties/{{ $imgData[0]->imagePath }}" alt="" srcset="">
-                    </div>
-                    <div class="col-lg-6 text-start text-lg-start wow slideInRight" data-wow-delay="0.1s">
-                        <h1 class="mb-3">Details:</h1>
-                        <h6>Location:
-                            {{ $details[0]->street }}, {{ $details[0]->brgy }}, {{ $details[0]->city }},
-                            {{ $details[0]->province }} {{ $details[0]->zip }} </h6>
-                        <h6> Area: {{ $details[0]->lotArea }} sq2</h6>
-                        <h6> Baths: {{ $details[0]->baths }}</h6>
-                        <h6> Beds: {{ $details[0]->beds }}</h6>
-                        <h6> Contact Number: (+63) {{ $details[0]->contactNumber }}</h6>
-                        @if ($details[0]->otherDetails != 'None')
-                            <h6> Other Details: {{ $details[0]->otherDetails }}</h6>
-                        @endif
-                        <h6 style="color: red;"> Price: P{{ number_format($details[0]->price, 1) }}</h6>
-                        <form action="/charge" method="post">
-                            @csrf
-                            <input type="hidden" name="amount" value="{{ $details[0]->price }}">
-                            @if ($alreadySold)
-                                <button class="btn btn-danger align-bottom" style="margin-top: 60px;" type="button">
-                                    <s>Sold</s>
-                                </button>
-                            @else
-                                <button class="btn btn-danger align-bottom" style="margin-top: 60px;" name="submit"
-                                    value="Pay Now">Buy Now</button>
-                            @endif
-
-                            <input type="hidden" name="propertyID" value="{{ $details[0]->propertyID }}">
-                        </form>
-                        <br>
-                        <img class="img-fluid" src="/visa.png" style="width: auto; height: 50px; margin-top: 20px;"
-                            alt="" srcset="">
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
-        <!-- Property List End -->
-
+        <!-- Team End -->
 
 
 
@@ -243,24 +203,19 @@
             </div>
         </div>
     </div>
-    <script>
-        function openItem(pid) {
-            window.load = `/property_list/${pid}`;
-        }
-    </script>
-    paymentSuccessful
-    @if (session()->pull('paymentSuccessful'))
+    @if (session()->pull('errorNotExist'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
-                    icon: 'success',
-                    title: 'Successfully Paid Property',
-                    showConfirmButton: true,
+                    icon: 'error',
+                    title: 'There are no properties with that name',
+                    showConfirmButton: false,
+                    timer: 800
                 });
-            }, 800);
+            }, 500);
         </script>
-        {{ session()->forget('paymentSuccessful') }}
+        {{ session()->forget('errorNotExist') }}
     @endif
     @if (session()->pull('successLoginClient'))
         <script>
@@ -268,10 +223,11 @@
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Successfully Login',
-                    showConfirmButton: true,
+                    title: 'Login Successfully',
+                    showConfirmButton: false,
+                    timer: 800
                 });
-            }, 800);
+            }, 500);
         </script>
         {{ session()->forget('successLoginClient') }}
     @endif

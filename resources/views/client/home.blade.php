@@ -95,22 +95,16 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="/client_home" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="#about" class="nav-item nav-link">About</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Property</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="property-list.html" class="dropdown-item">Property List</a>
-                                <a href="property-type.html" class="dropdown-item">Property Type</a>
-                                <a href="property-agent.html" class="dropdown-item">Property Agent</a>
+                                <a href="/property_list#search" class="dropdown-item">Property List</a>
+                                <a href="/owned_properties" class="dropdown-item">Owned Properties</a>
+                                <a href="/property_agents" class="dropdown-item">Property Agent</a>
                             </div>
                         </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Account</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="testimonial.html" class="dropdown-item">Account</a>
-                                <a href="404.html" class="dropdown-item">Payments</a>
-                            </div>
-                        </div>
+                        <a href="/my_account" class="nav-item nav-link">My Account</a>
                     </div>
                     <a href="" class="btn btn-primary px-3 d-none d-lg-flex" data-bs-target="#logoutModal"
                         data-bs-toggle="modal">Logout</a>
@@ -150,34 +144,39 @@
         <div id="search" class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s"
             style="padding: 35px;">
             <div class="container">
-                <div class="row g-2">
-                    <div class="col-md-10">
-                        <div class="row g-2">
-                            <div class="col-md-4">
-                                <input type="text" class="form-control border-0 py-3"
-                                    placeholder="Search Keyword">
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Property Type</option>
-                                    <option value="rent">For Rent</option>
-                                    <option value="sale">For Sale</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>Location</option>
-                                    @foreach ($allProv as $item)
-                                        <option value="{{ $item->province }}">{{ $item->province }}</option>
-                                    @endforeach
-                                </select>
+
+                <form action="/client_home" method="get">
+                    <div class="row g-2">
+                        @csrf
+                        <div class="col-md-10">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control border-0 py-3"
+                                        placeholder="Search Keyword" name="propertyName">
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-select border-0 py-3" name="type">
+                                        <option selected>Property Type</option>
+                                        <option value="rent">For Rent</option>
+                                        <option value="sale">For Sale</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-select border-0 py-3" name="location">
+                                        <option selected>Location</option>
+                                        @foreach ($allProv as $item)
+                                            <option value="{{ $item->province }}">{{ $item->province }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-dark border-0 w-100 py-3">Search</button>
+                        </div>
+
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-dark border-0 w-100 py-3">Search</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
         <!-- Search End -->
@@ -185,7 +184,7 @@
 
 
         <!-- About Start -->
-        <div class="container-xxl py-5">
+        <div class="container-xxl py-5" id="about">
             <div class="container">
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
@@ -212,91 +211,102 @@
         <!-- About End -->
 
 
-        <!-- Property List Start -->
-        <div class="container-xxl py-5" id="pl">
-            <div class="container">
-                <div class="row g-0 gx-5 align-items-end">
-                    <div class="col-lg-6">
-                        <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                            <h1 class="mb-3">Property Listing</h1>
-                            <p>Looking for your next home or investment? Discover a wide range of top-rated properties
-                                at BestProperties.ph, where finding the perfect match is fast, easy, and tailored to
-                                your needs!</p>
+        @if (count($allProps) > 0)
+            <!-- Property List Start -->
+            <div class="container-xxl py-5" id="pl">
+                <div class="container">
+                    <div class="row g-0 gx-5 align-items-end">
+                        <div class="col-lg-6">
+                            <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                                <h1 class="mb-3">Property Listing</h1>
+                                <p>Looking for your next home or investment? Discover a wide range of top-rated
+                                    properties
+                                    at BestProperties.ph, where finding the perfect match is fast, easy, and tailored to
+                                    your needs!</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+                            <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                                <li class="nav-item me-2">
+                                    <a class="btn btn-outline-primary active" data-bs-toggle="pill"
+                                        href="#tab-1">Featured</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-                            <li class="nav-item me-2">
-                                <a class="btn btn-outline-primary active" data-bs-toggle="pill"
-                                    href="#tab-1">Featured</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="tab-content">
-                    <div id="tab-1" class="tab-pane fade show p-0 active">
-                        <div class="row g-4">
-                            @foreach ($allProps as $item)
-                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                    <div class="property-item rounded overflow-hidden">
-                                        <div class="position-relative overflow-hidden">
-                                            @foreach ($allImages as $imgItem)
-                                                @if ($imgItem['propertyID'] == $item->propertyID)
-                                                    <a href="">
-                                                        <img class="img-fluid"
-                                                            src="/data/img_properties/{{ $imgItem['imagePath'] }}"
-                                                            alt="">
-                                                    </a>
-                                                @endif
-                                            @endforeach
-                                            <div
-                                                class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
-                                                @if ($item->type == 'sale')
-                                                    For Sale
-                                                @else
-                                                    @if ($item->type == 'rent')
-                                                        For Rent
-                                                    @else
-                                                        Sold Out
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                @foreach ($allProps as $item)
+                                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                        <div class="property-item rounded overflow-hidden">
+                                            <div class="position-relative overflow-hidden">
+                                                @foreach ($allImages as $imgItem)
+                                                    @if ($imgItem['propertyID'] == $item->propertyID)
+                                                        <a href="">
+                                                            <img class="img-fluid"
+                                                                src="/data/img_properties/{{ $imgItem['imagePath'] }}"
+                                                                alt="">
+                                                        </a>
                                                     @endif
-                                                @endif
+                                                @endforeach
+                                                <div
+                                                    class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">
+                                                    @foreach ($allPayments as $p)
+                                                        @if ($p['propertyID'] == $item->propertyID)
+                                                            <s>Sold Out</s>
+                                                        @else
+                                                            @if ($item->type == 'sale')
+                                                                For Sale
+                                                            @else
+                                                                @if ($item->type == 'rent')
+                                                                    For Rent
+                                                                @else
+                                                                    Sold Out
+                                                                @endif
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                                <div
+                                                    class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
+                                                    House</div>
                                             </div>
-                                            <div
-                                                class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">
-                                                House</div>
-                                        </div>
-                                        <div class="p-4 pb-0">
-                                            <h5 class="text-primary mb-3">P{{ number_format($item->price, 1) }}</h5>
-                                            <a class="d-block h5 mb-2"
-                                                href="/property_list/{{ $item->propertyID }}#pdetails">{{ $item->propertyName }}</a>
-                                            <p><i class="fa fa-map-marker-alt text-primary me-2"></i>
-                                                {{ $item->street }}, {{ $item->brgy }}, {{ $item->city }},
-                                                {{ $item->province }} {{ $item->zip }}</p>
-                                        </div>
-                                        <div class="d-flex border-top">
-                                            <small class="flex-fill text-center border-end py-2"><i
-                                                    class="fa fa-ruler-combined text-primary me-2"></i>{{ $item->lotArea }}
-                                                Sqft</small>
-                                            <small class="flex-fill text-center border-end py-2"><i
-                                                    class="fa fa-bed text-primary me-2"></i>{{ $item->beds }}
-                                                Bed</small>
-                                            <small class="flex-fill text-center py-2"><i
-                                                    class="fa fa-bath text-primary me-2"></i>{{ $item->baths }}
-                                                Bath</small>
+                                            <div class="p-4 pb-0">
+                                                <h5 class="text-primary mb-3">P{{ number_format($item->price, 1) }}
+                                                </h5>
+                                                <a class="d-block h5 mb-2"
+                                                    href="/property_list/{{ $item->propertyID }}#pdetails">{{ $item->propertyName }}</a>
+                                                <p><i class="fa fa-map-marker-alt text-primary me-2"></i>
+                                                    {{ $item->street }}, {{ $item->brgy }}, {{ $item->city }},
+                                                    {{ $item->province }} {{ $item->zip }}</p>
+                                            </div>
+                                            <div class="d-flex border-top">
+                                                <small class="flex-fill text-center border-end py-2"><i
+                                                        class="fa fa-ruler-combined text-primary me-2"></i>{{ $item->lotArea }}
+                                                    Sqft</small>
+                                                <small class="flex-fill text-center border-end py-2"><i
+                                                        class="fa fa-bed text-primary me-2"></i>{{ $item->beds }}
+                                                    Bed</small>
+                                                <small class="flex-fill text-center py-2"><i
+                                                        class="fa fa-bath text-primary me-2"></i>{{ $item->baths }}
+                                                    Bath</small>
+                                            </div>
                                         </div>
                                     </div>
+                                @endforeach
+                                <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
+                                    <a class="btn btn-primary py-3 px-5" href="/property_list#search">Browse More
+                                        Property</a>
                                 </div>
-                            @endforeach
-                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
-                                <a class="btn btn-primary py-3 px-5" href="/property_list#search">Browse More
-                                    Property</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Property List End -->
+            <!-- Property List End -->
+
+        @endif
 
 
         <!-- Team Start -->
@@ -444,6 +454,20 @@
             </div>
         </div>
     </div>
+    @if (session()->pull('errorNotExist'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'There are no properties with that name',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorNotExist') }}
+    @endif
     @if (session()->pull('successLoginClient'))
         <script>
             setTimeout(() => {

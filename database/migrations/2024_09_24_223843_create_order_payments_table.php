@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_payments', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('userID')->nullable(false);
+            $table->integer('propertyID')->nullable(false);
             $table->string('payment_id');
             $table->string('payer_id');
             $table->string('payer_email');

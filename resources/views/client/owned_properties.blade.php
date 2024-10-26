@@ -33,6 +33,10 @@
     <!-- Template Stylesheet -->
     <link href="/asset3/css/style.css" rel="stylesheet">
     <style>
+        body {
+            background-color: white;
+        }
+
         .bg-primary {
             background-color: #e60000 !important;
         }
@@ -81,7 +85,7 @@
 
 
         <!-- Navbar Start -->
-        <div class="container-fluid nav-bar bg-transparent">
+        <div class="container-fluid nav-bar bg-transparent sticky-top">
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
                 <a href="index.html" class="navbar-brand d-flex align-items-center text-center">
                     <div class="icon p-2 me-2">
@@ -101,7 +105,7 @@
                                 Properties</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="/property_list#search" class="dropdown-item">Property List</a>
-                                <a href="/owned_properties" class="dropdown-item">Owned Properties</a>
+                                <a href="/owned_properties" class="dropdown-item active">Owned Properties</a>
                                 <a href="/property_agents" class="dropdown-item">Property Agent</a>
                             </div>
                         </div>
@@ -116,90 +120,91 @@
         <!-- Navbar End -->
 
 
-        <!-- Header Start -->
-        <div id="hs" class="container-fluid header bg-white p-0">
-            <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
-                <div class="col-md-6 p-5 mt-lg-5">
-                    <h1 class="display-5 animated fadeIn mb-4">Property Details</h1>
-                    <nav aria-label="breadcrumb animated fadeIn">
-                        <ol class="breadcrumb text-uppercase">
-                            <li class="breadcrumb-item"><a href="/client_home">Home</a></li>
-                            <li class="breadcrumb-item text-body">Property List</li>
-                            <li class="breadcrumb-item text-body active" aria-current="page">Property Detail</li>
-                        </ol>
-                    </nav>
-                </div>
-                <div class="col-md-6 animated fadeIn">
-                    <img class="img-fluid" src="/asset3/img/header.jpg" alt="">
-                </div>
-            </div>
-        </div>
-        <!-- Header End -->
-        <!-- Search Start -->
-        <div id="search" class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s"
-            style="padding: 35px;">
-            <div class="container">
-                <div class="row g-2">
-                </div>
-            </div>
-        </div>
-        <!-- Search End -->
-
         <!-- Property List Start -->
-        <div class="container-xxl py-5" id="pdetails">
+        <div class="container-xxl py-5 wow fadeIn" data-wow-delay="0.1s" id="pdetails">
             <div class="container">
-                <div class="row g-0 gx-5 align-items-end">
-                    <div class="col-lg-6">
-                        <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                            <h1 class="mb-3">{{ $details[0]->propertyName }}</h1>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title mb-4">
+                            <h1 class="display-5 mb-0">Owned Properties</h1>
                         </div>
                     </div>
-                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-
-                    </div>
                 </div>
-                <div class="row g-0 gx-5 align-items-start">
-                    <div class="col-lg-6">
-                        <img class="img-fluid wow fadeInUp" data-wow-delay="0.1s"
-                            src="/data/img_properties/{{ $imgData[0]->imagePath }}" alt="" srcset="">
-                    </div>
-                    <div class="col-lg-6 text-start text-lg-start wow slideInRight" data-wow-delay="0.1s">
-                        <h1 class="mb-3">Details:</h1>
-                        <h6>Location:
-                            {{ $details[0]->street }}, {{ $details[0]->brgy }}, {{ $details[0]->city }},
-                            {{ $details[0]->province }} {{ $details[0]->zip }} </h6>
-                        <h6> Area: {{ $details[0]->lotArea }} sq2</h6>
-                        <h6> Baths: {{ $details[0]->baths }}</h6>
-                        <h6> Beds: {{ $details[0]->beds }}</h6>
-                        <h6> Contact Number: (+63) {{ $details[0]->contactNumber }}</h6>
-                        @if ($details[0]->otherDetails != 'None')
-                            <h6> Other Details: {{ $details[0]->otherDetails }}</h6>
-                        @endif
-                        <h6 style="color: red;"> Price: P{{ number_format($details[0]->price, 1) }}</h6>
-                        <form action="/charge" method="post">
-                            @csrf
-                            <input type="hidden" name="amount" value="{{ $details[0]->price }}">
-                            @if ($alreadySold)
-                                <button class="btn btn-danger align-bottom" style="margin-top: 60px;" type="button">
-                                    <s>Sold</s>
-                                </button>
-                            @else
-                                <button class="btn btn-danger align-bottom" style="margin-top: 60px;" name="submit"
-                                    value="Pay Now">Buy Now</button>
-                            @endif
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <br>
+                                <div class="table-responsive">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
+                                            <tr class="align-middle">
+                                                <th class="text-center">
+                                                </th>
+                                                <th>Property Name</th>
+                                                <th class="text-center">Price</th>
+                                                <th>Location</th>
+                                                <th class="text-center">Status</th>
+                                                <th>Paid Date</th>
+                                                <th class="text-center">Action</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($allProps as $item)
+                                                <tr class="text-center text-dark">
+                                                    <td class="text-center">
 
-                            <input type="hidden" name="propertyID" value="{{ $details[0]->propertyID }}">
-                        </form>
-                        <br>
-                        <img class="img-fluid" src="/visa.png" style="width: auto; height: 50px; margin-top: 20px;"
-                            alt="" srcset="">
+                                                    </td>
+                                                    <td>
+                                                        {{ $item->propertyName }}
+
+                                                    </td>
+                                                    <td class="text-center">
+                                                        P{{ number_format($item->price, 1) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $item->street }}, {{ $item->brgy }},
+                                                        {{ $item->city }},
+                                                        {{ $item->province }} {{ $item->zip }}
+                                                    </td>
+                                                    <td>
+                                                        @if ($item->payment_status == 'approved')
+                                                            Paid
+                                                        @else
+                                                            Not Paid
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-success"
+                                                            onclick="into({{ $item->propertyID }})"
+                                                            title="View Properties">
+                                                            <img src="/view.svg" alt="" srcset="">
+                                                        </button>
+                                                        <button
+                                                            onclick="intoPayment({{ $item->propertyID }})"
+                                                            class="btn btn-warning" title="Payment Details">
+                                                            <img src="/payment.svg" alt="" srcset="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
         <!-- Property List End -->
-
-
 
 
         <!-- Footer Start -->
@@ -248,7 +253,20 @@
             window.load = `/property_list/${pid}`;
         }
     </script>
-    paymentSuccessful
+    @if (session()->pull('errorNotExist'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Associated Property Does\'nt Exist',
+                    showConfirmButton: false,
+                    timer: 500
+                });
+            }, 800);
+        </script>
+        {{ session()->forget('errorNotExist') }}
+    @endif
     @if (session()->pull('paymentSuccessful'))
         <script>
             setTimeout(() => {
@@ -275,6 +293,14 @@
         </script>
         {{ session()->forget('successLoginClient') }}
     @endif
+    <script>
+        function into(id) {
+            window.open(`/property_list/${id}#pdetails`, '_blank');
+        }
+        function intoPayment(id) {
+            window.open(`/payment_details?pid=${id}`, '_blank');
+        }
+    </script>
 </body>
 
 </html>

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ImageProperties;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ClientPropertyListController extends Controller
+class OwnedProperties extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,19 +19,14 @@ class ClientPropertyListController extends Controller
             if ($user['type'] != "Client") {
                 return redirect("/");
             }
-            $allProps = DB::table('properties')
+
+            $allProps = DB::table('vwmyproperties')
+                ->where('userID', '=', $user['userID'])
                 ->orderBy('created_at', 'desc')
                 ->limit(20)
                 ->get();
 
-            $allProv = DB::table('properties')->distinct('province')->get();
-
-            $allImages = json_decode(ImageProperties::all(), true);
-            $allPayments = json_decode(DB::table('order_payments')->select('propertyID')->get(), true);
-
-
-
-            return view('client.properties', ['allProps' => $allProps, "allImages" => $allImages, 'allProv' => $allProv, 'allPayments' => $allPayments]);
+            return view('client.owned_properties', ['allProps' => $allProps]);
         }
         return redirect("/");
     }
@@ -58,26 +52,7 @@ class ClientPropertyListController extends Controller
      */
     public function show(string $id)
     {
-        if (session()->exists("users")) {
-            $user = session()->pull("users");
-            session()->put("users", $user);
-
-            if ($user['type'] != "Client") {
-                return redirect("/");
-            }
-
-            $data = DB::table('properties')->where('propertyID', '=', $id)->get();
-            $imgData = DB::table('image_properties')->where('propertyID', '=', $id)->get();
-
-
-
-            $property = json_decode(DB::table('order_payments')->where('propertyID', '=', $id)->where('payment_status', '=', 'approved')->get(), true);
-            $alreadySold = (count($property) == 1);
-
-
-            return view('client.property_detail', ['details' => $data, 'imgData' => $imgData, 'alreadySold' => $alreadySold]);
-        }
-        return redirect("/");
+        //
     }
 
     /**
