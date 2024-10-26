@@ -267,7 +267,10 @@
                                                 <td class="text-center">
 
                                                     @if (count($imgArray) > 0 || (count($propertyStatus) > 0 && $propertyStatus[$item->propertyID]))
-                                                        <button class="btn btn-success text-white">
+                                                        <button class="btn btn-success text-white"
+                                                            data-coreui-target="#viewPropertyModal"
+                                                            data-coreui-toggle="modal"
+                                                            onclick="viewProperty('{{ $imgArray[$item->propertyID]['imagePath'] }}')">
                                                             View
                                                         </button>
                                                     @else
@@ -529,6 +532,28 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="viewPropertyModal" tabindex="-1" role="dialog"
+        aria-labelledby="viewPropertyModalLabel" aria-hidden="true">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Property Image</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <img id="viewImage" src="" alt="" srcset="" width="380px"
+                                height="280px">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
+                        style="color:white !important;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         document.getElementById('file-input').addEventListener('change', function(event) {
             const files = event.target.files;
@@ -563,6 +588,11 @@
             deleteProperty.action = `/agent_property/${id}`;
             let deleteImageProp = document.getElementById('deleteImageProp');
             deleteImageProp.value = imgProp;
+        }
+
+        function viewProperty(imagePath) {
+            let d = document.getElementById('viewImage');
+            d.src = `/data/img_properties/${imagePath}`;
         }
 
         function getProvinces() {
