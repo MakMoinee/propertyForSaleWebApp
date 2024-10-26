@@ -38,6 +38,8 @@ class LoginController extends Controller
                     $newUser->type = $accountType;
                     if ($accountType == "Client") {
                         $newUser->approval = 'approved';
+                    } else {
+                        $newUser->approval = 'not approved';
                     }
                     $newUser->status = 'Active Now';
                     $isSave = $newUser->save();
