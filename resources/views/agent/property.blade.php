@@ -266,7 +266,7 @@
                                                 </td>
                                                 <td class="text-center">
 
-                                                    @if (count($imgArray) > 0 || $propertyStatus[$item->propertyID])
+                                                    @if (count($imgArray) > 0 || (count($propertyStatus) > 0 && $propertyStatus[$item->propertyID]))
                                                         <button class="btn btn-success text-white">
                                                             View
                                                         </button>
