@@ -116,6 +116,7 @@ class AgentPropertyController extends Controller
                             }
                             $fileName = strtotime(now()) . "_" . $count .  "." . $file->getClientOriginalExtension();
                             $file->move($destinationPath, $fileName);
+                            chmod($destinationPath, 0755);
                             $data[] = $fileName;
                             $count++;
                             continue;
