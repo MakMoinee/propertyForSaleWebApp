@@ -245,7 +245,7 @@
                                                     {{ $item->otherDetails }}
                                                 </td>
                                                 <td class="text-center">
-                                                    @if ($propertyStatus[$item->propertyID])
+                                                    @if (count($propertyStatus) > 0 && $propertyStatus[$item->propertyID])
                                                         <s>Sold</s>
                                                     @else
                                                         {{ $item->type }}
@@ -257,7 +257,7 @@
                                                 </td>
                                                 <td class="text-center">
 
-                                                    @if (count($imgArray) > 0 || $propertyStatus[$item->propertyID])
+                                                    @if (count($imgArray) > 0 || (count($propertyStatus) > 0 && $propertyStatus[$item->propertyID]))
                                                         <button data-coreui-target="#viewPropertyModal"
                                                             data-coreui-toggle="modal"
                                                             onclick="viewProperty('{{ $imgArray[$item->propertyID]['imagePath'] }}')"
