@@ -254,7 +254,7 @@
                                                     {{ $item->otherDetails }}
                                                 </td>
                                                 <td class="text-center">
-                                                    @if ($propertyStatus[$item->propertyID])
+                                                    @if (count($propertyStatus) > 0 && $propertyStatus[$item->propertyID])
                                                         <s>Sold</s>
                                                     @else
                                                         {{ $item->type }}
