@@ -33,16 +33,24 @@ class AgentPropertyController extends Controller
             $allImage = json_decode(ImageProperties::all(), true);
 
             $imgArray = array();
+            $propertyStatus = array();
 
+            $mySale = DB::table('vwagentsales')->where('myID', '=', $user['userID'])->get();
             foreach ($allProperties as $m) {
                 foreach ($allImage as $a) {
                     if ($a["propertyID"] == $m["propertyID"]) {
                         $imgArray[$m["propertyID"]] = $a;
                     }
                 }
+
+                foreach ($mySale as $m) {
+                    if ($a["propertyID"] == $m->propertyID && $m->payment_status == 'approved') {
+                        $propertyStatus[$a["propertyID"]] = true;
+                    }
+                }
             }
 
-            return view('agent.property', ['properties' => $myProperties, 'imgArray' => $imgArray]);
+            return view('agent.property', ['properties' => $myProperties, 'imgArray' => $imgArray, 'propertyStatus' => $propertyStatus]);
         }
         return redirect("/");
     }

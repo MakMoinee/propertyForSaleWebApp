@@ -55,6 +55,17 @@
             color: rgb(255, 255, 255);
             background: rgba(253, 245, 139, 0.349);
         }
+
+        .preview {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .preview img {
+            margin: 10px;
+            max-width: 200px;
+            max-height: 200px;
+        }
     </style>
 </head>
 
@@ -75,19 +86,19 @@
                             aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                             <div class="simplebar-content" style="padding: 0px;">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/agent_dashboard">
+                                    <a class="nav-link " href="/agent_dashboard">
                                         <img src="/dashboard.svg" alt="" srcset="" class="nav-icon">
                                         Dashboard
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link"href="/agent_property">
+                                    <a class="nav-link " href="/agent_property">
                                         <img src="/property.svg" alt="" srcset="" class="nav-icon">
                                         Property Information
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/agent_sales">
+                                    <a class="nav-link active" href="/agent_sales">
                                         <img src="/sales.svg" alt="" srcset="" class="nav-icon"> Sales
                                         History
                                     </a>
@@ -183,7 +194,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Dashboard</span></li>
+                        <li class="breadcrumb-item active"><span>Sales History</span></li>
                     </ol>
                 </nav>
             </div>
@@ -191,29 +202,65 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
                 <div class="row">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card mb-4 text-black bg-white" style="height: 165px;">
-                            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                                <div>
-                                    <div class="fs-4 fw-semibold">P{{ number_format($totalSales, 2) }}</div>
-                                    <div>Total Sales</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-lg-12">
+                        <h3 class="mb-3">Transaction Details</h3>
                     </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card mb-4 text-black bg-white" style="height: 165px;">
-                            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                                <div>
-                                    <div class="fs-4 fw-semibold">{{ count($allProperties) }}</div>
-                                    <div>Total Properties</div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <button class="btn btn-dark" onclick="window.location.href='/agent_sales'">
+                            Go Back
+                        </button>
                     </div>
-
                 </div>
 
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow-lg mb-4" id="printableArea">
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title">Amount Paid:</h5>
+                                        <p class="card-text text-primary display-6">
+                                            P{{ number_format($payment['amount'], 2) }}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <h5 class="card-title">Payment Date:</h5>
+                                        <p class="card-text">
+                                            {{ (new DateTime($payment['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title">Payment Email:</h5>
+                                        <p class="card-text">{{ $payment['payer_email'] }}</p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <h5 class="card-title">Transaction ID:</h5>
+                                        <p class="card-text">{{ $payment['payment_id'] }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <h5 class="card-title">Status:</h5>
+                                        <span
+                                            class="badge rounded-pill 
+                                            {{ $payment['payment_status'] == 'approved' ? 'bg-success' : ($payment->status == 'pending' ? 'bg-warning text-dark' : 'bg-danger') }}">
+                                            {{ $payment['payment_status'] }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning mt-3" onclick="printPaymentDetails()">Print Payment
+                            Details</button>
+                    </div>
+                </div>
             </div>
         </div>
         <footer class="footer">
@@ -229,7 +276,7 @@
     <script src="/asset2/coreui-chartjs.js.download"></script>
     <script src="/asset2/coreui-utils.js.download"></script>
     <script src="/asset2/main.js.download"></script>
-    <script></script>
+
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel"
         aria-hidden="true">
         <div class="modal-dialog " role="document">
@@ -252,19 +299,136 @@
             </div>
         </div>
     </div>
-    @if (session()->pull('successLoginAgent'))
+    <script>
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const files = event.target.files;
+            const preview = document.getElementById('preview');
+            preview.innerHTML = ''; // Clear the current preview
+
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        preview.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('File is not an image.');
+                }
+            });
+        });
+
+        function updateAddImage(img, id) {
+            let imagePropertyName = document.getElementById('imagePropertyName');
+            imagePropertyName.value = img;
+
+            let imagePid = document.getElementById('imagePid');
+            imagePid.value = id;
+        }
+
+        function deleteProp(id, imgProp) {
+            let deleteProperty = document.getElementById('deleteProperty');
+            deleteProperty.action = `/agent_property/${id}`;
+            let deleteImageProp = document.getElementById('deleteImageProp');
+            deleteImageProp.value = imgProp;
+        }
+
+        function getProvinces() {
+            fetch('https://psgc.gitlab.io/api/provinces/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    data.sort((a, b) => a.name.localeCompare(b.name));
+                    let dropdown = document.getElementById('addProvince');
+                    data.forEach(province => {
+                        const option = document.createElement('option');
+                        option.value = province.name;
+                        option.textContent = province.name;
+                        dropdown.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+
+        }
+
+        function into(id) {
+            window.open(`/sales_history/${id}#pdetails`, '_blank');
+        }
+
+        function printPaymentDetails() {
+            var printContents = document.getElementById('printableArea').innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            window.location.reload(); // Reload the page to restore JavaScript functionality
+        }
+        getProvinces();
+    </script>
+    @if (session()->pull('successDeleteProp'))
         <script>
             setTimeout(() => {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Login Successfully',
+                    title: 'Successfully Deleted Property',
                     showConfirmButton: false,
                     timer: 800
                 });
             }, 500);
         </script>
-        {{ session()->forget('successLoginAgent') }}
+        {{ session()->forget('successDeleteProp') }}
+    @endif
+    @if (session()->pull('successAddImage'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Added Property Image',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successAddImage') }}
+    @endif
+    @if (session()->pull('successAddProperty'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Successfully Added Property',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('successAddProperty') }}
+    @endif
+    @if (session()->pull('errorAddProperty'))
+        <script>
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Failed To Add Property, Please Try Again Later',
+                    showConfirmButton: false,
+                    timer: 800
+                });
+            }, 500);
+        </script>
+        {{ session()->forget('errorAddProperty') }}
     @endif
 </body>
 

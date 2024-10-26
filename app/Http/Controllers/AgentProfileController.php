@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ImageProperties;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class MyAccountsController extends Controller
+class AgentProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +18,7 @@ class MyAccountsController extends Controller
             $user = session()->pull("users");
             session()->put("users", $user);
 
-            if ($user['type'] != "Client") {
+            if ($user['type'] != "Agent") {
                 return redirect("/");
             }
 
@@ -35,7 +34,7 @@ class MyAccountsController extends Controller
 
 
 
-            return view('client.myaccount', [
+            return view('agent.profile', [
                 'currentUser' => $user,
                 "months" => 12,
                 'yrs' => $years,
@@ -85,14 +84,14 @@ class MyAccountsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if (session()->exists('users')) {
-            $user = session()->pull('users');
-            session()->put('users', $user);
-            if ($user['type'] != "Client") {
+        if (session()->exists("users")) {
+            $user = session()->pull("users");
+            session()->put("users", $user);
+
+            if ($user['type'] != "Agent") {
                 return redirect("/");
             }
-
-            if ($request->btnUpdateProfile) {
+            if ($request->btnUpdateAgentProfile) {
                 $queryExistArr = json_decode(DB::table('system_users')->where('userID', '=', $id)->get(), true);
                 if (count($queryExistArr) > 0) {
                     $updateCount = DB::table('system_users')->where('userID', '=', $id)->update([
@@ -113,10 +112,8 @@ class MyAccountsController extends Controller
                     session()->put('errorUpdateProfile', true);
                 }
             }
-
             return redirect("/agent_profile");
         }
-
         return redirect("/");
     }
 

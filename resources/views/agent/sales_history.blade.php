@@ -92,13 +92,13 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/agent_property">
+                                    <a class="nav-link " href="/agent_property">
                                         <img src="/property.svg" alt="" srcset="" class="nav-icon">
                                         Property Information
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/agent_sales">
+                                    <a class="nav-link active" href="/agent_sales">
                                         <img src="/sales.svg" alt="" srcset="" class="nav-icon"> Sales
                                         History
                                     </a>
@@ -194,7 +194,7 @@
                         <li class="breadcrumb-item">
                             <span>Home</span>
                         </li>
-                        <li class="breadcrumb-item active"><span>Property Information</span></li>
+                        <li class="breadcrumb-item active"><span>Sales History</span></li>
                     </ol>
                 </nav>
             </div>
@@ -202,134 +202,60 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-lg-12">
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <span style="font-size:25px;">PROPERTY INFORMATION</span>
-                                <button class="btn btn-primary" style="float: right;" data-coreui-toggle="modal"
-                                    data-coreui-target="#addPropertyModal">Add Property</button>
-                            </div>
                             <div class="card-body">
-                                <form action="/agent_property" method="get">
-                                    <div class="form-group">
-                                        <div class="input-group mb-3">
-                                            <input type="search" class="form-control" placeholder="Search Name"
-                                                aria-label="Search Name" aria-describedby="basic-addon2"
-                                                name="search">
-                                            <div class="input-group-append">
-                                                <button type="submit"
-                                                    class="btn btn-primary input-group-text">Search</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
                                 <br>
-                                <table class="table border mb-0">
-                                    <thead class="table-light fw-semibold">
-                                        <tr class="align-middle">
-                                            <th class="text-center sortable" data-sort="propertyName">Property Name
-                                            </th>
-                                            <th class="sortable" data-sort="price">Price</th>
-                                            <th class="text-center sortable" data-sort="contactNumber">Contact Number
-                                            </th>
-                                            <th class="sortable" data-sort="otherDetails">Other Details</th>
-                                            <th class="text-center sortable" data-sort="type">Type</th>
-                                            <th>Posted Date</th>
-                                            <th class="text-center sortable">Image/s</th>
-                                            <th>Action</th>
-                                            <th class="text-center sortable"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($properties as $item)
+                                <div class="table-responsive">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
                                             <tr class="align-middle">
-                                                <td class="text-center">{{ $item->propertyName }}</td>
-                                                <td>
-                                                    {{ number_format($item->price, 1) }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $item->contactNumber }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->otherDetails }}
-                                                </td>
-                                                <td class="text-center">
-                                                    @if ($propertyStatus[$item->propertyID])
-                                                        <s>Sold</s>
-                                                    @else
-                                                        {{ $item->type }}
-                                                    @endif
-
-                                                </td>
-                                                <td>
-                                                    {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
-                                                </td>
-                                                <td class="text-center">
-
-                                                    @if (count($imgArray) > 0 || $propertyStatus[$item->propertyID])
-                                                        <button class="btn btn-success text-white">
-                                                            View
-                                                        </button>
-                                                    @else
-                                                        <button class="btn btn-white" data-coreui-toggle="modal"
-                                                            data-coreui-target="#addImageModal"
-                                                            onclick="updateAddImage('{{ $item->propertyName }}',{{ $item->propertyID }})">
-                                                            <img src="/addImage.svg" alt="" srcset="">
-                                                        </button>
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">
-                                                    @if ($propertyStatus[$item->propertyID])
-                                                    @else
-                                                        @if (count($imgArray) > 0)
-                                                            <button class="btn btn-white" data-coreui-toggle="modal"
-                                                                data-coreui-target="#deletePropertyModal"
-                                                                onclick="deleteProp('{{ $item->propertyID }}','{{ $imgArray[$item->propertyID]['imagePath'] }}')">
-                                                                <img src="/delete.svg" alt="" srcset="">
-                                                            </button>
-                                                        @else
-                                                            <button class="btn btn-white" data-coreui-toggle="modal"
-                                                                data-coreui-target="#deletePropertyModal"
-                                                                onclick="deleteProp('{{ $item->propertyID }}','')">
-                                                                <img src="/delete.svg" alt="" srcset="">
-                                                            </button>
-                                                        @endif
-                                                    @endif
-
-
-                                                </td>
+                                                <th class="text-center">
+                                                </th>
+                                                <th>Property Name</th>
+                                                <th class="text-center">Sold To</th>
+                                                <th>Amount</th>
+                                                <th class="text-center">Paid Date</th>
+                                                <th>Action</th>
+                                                <th class="text-center"></th>
+                                                <th></th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination">
-                                        <ul class="pagination">
-                                            @for ($i = 1; $i <= $properties->lastPage(); $i++)
-                                                @if ($i == 1)
-                                                    <li class="page-item " style="margin-left: 15px;">
-                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @else
-                                                    <li class="page-item ">
-                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @endif
-                                            @endfor
-                                        </ul>
-
-                                    </div>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($allSales as $item)
+                                                <tr class="align-middle">
+                                                    <td class="text-center">
+                                                    </td>
+                                                    <td>
+                                                        {{ $item->propertyName }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $customer[$item->propertyID]->firstName }}
+                                                        {{ $customer[$item->propertyID]->middleName }}
+                                                        {{ $customer[$item->propertyID]->lastName }}
+                                                    </td>
+                                                    <td>P{{ number_format($item->amount) }}</td>
+                                                    <td class="text-center">
+                                                        {{ (new DateTime($item->paymentDate))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-success"
+                                                            onclick="into({{ $item->propertyID }})">
+                                                            <img src="/view.svg" alt="" srcset="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center"></td>
+                                                    <td></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
         <footer class="footer">
@@ -346,48 +272,6 @@
     <script src="/asset2/coreui-utils.js.download"></script>
     <script src="/asset2/main.js.download"></script>
 
-    <div class="modal fade" id="addImageModal" tabindex="-1" role="dialog" aria-labelledby="addImageModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form action="/agent_property" method="post" enctype="multipart/form-data">
-                    @method('post')
-                    @csrf
-                    <div class="modal-header">
-                        <h3>Add Property Image</h3>
-                    </div>
-                    <form action="" method="post">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="propertyName">Property Name:</label>
-                                    <input style="cursor: not-allowed" readonly required type="text"
-                                        name="propertyName" id="imagePropertyName" class="form-control mt-2">
-                                    <input type="hidden" name="propertyID" id="imagePid" value="">
-
-                                </div>
-                                <br>
-                                <div class="form-group">
-                                    <label for="images">Upload Images:</label>
-                                    <input class="form-control" accept="*.jpg,*.png,*.jpeg" name="images[]"
-                                        type="file" id="file-input" multiple>
-                                    <div class="preview" id="preview"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" name="btnAddPropertyImage" value="yes"
-                                class="btn btn-primary text-white">Yes, Proceed</button>
-                            <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal"
-                                style="color:white !important;">Close</button>
-                        </div>
-                    </form>
-
-                </form>
-            </div>
-        </div>
-    </div>
     <div class="modal fade" id="addPropertyModal" tabindex="-1" role="dialog"
         aria-labelledby="addPropertyModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -587,6 +471,10 @@
                     console.error('There was a problem with the fetch operation:', error);
                 });
 
+        }
+
+        function into(id) {
+            window.open(`/agent_sales/${id}#pdetails`, '_blank');
         }
         getProvinces();
     </script>

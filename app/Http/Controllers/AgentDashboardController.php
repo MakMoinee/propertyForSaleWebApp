@@ -22,8 +22,15 @@ class AgentDashboardController extends Controller
 
             $allProperties = json_decode(DB::table('properties')->where('userID', '=', $user['userID'])->get(), true);
 
+            $query = DB::table('vwagentsales')->where('myID', '=', $user['userID'])->get();
+            $totalSales = 0;
+            foreach ($query as $q) {
+                if ($q->payment_status == 'approved') {
+                    $totalSales += $q->amount;
+                }
+            }
 
-            return view('agent.dashboard', ['allProperties' => $allProperties]);
+            return view('agent.dashboard', ['allProperties' => $allProperties, 'totalSales' => $totalSales]);
         }
         return redirect("/");
     }
@@ -31,9 +38,7 @@ class AgentDashboardController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
