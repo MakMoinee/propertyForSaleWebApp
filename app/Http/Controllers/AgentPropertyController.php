@@ -112,7 +112,7 @@ class AgentPropertyController extends Controller
                             if (env('APP_ENV') == 'prod') {
                                 $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public' . "/data/img_properties/";
                             } else {
-                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/";
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public' . "/data/img_properties/";
                             }
                             $fileName = strtotime(now()) . "_" . $count .  "." . $file->getClientOriginalExtension();
                             $file->move($destinationPath, $fileName);
@@ -213,7 +213,7 @@ class AgentPropertyController extends Controller
                             if (env('APP_ENV') == 'prod') {
                                 $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public' . "/data/img_properties/" . $ai;
                             } else {
-                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . "/data/img_properties/" . $ai;
+                                $destinationPath = $_SERVER['DOCUMENT_ROOT'] . '/public' . "/data/img_properties/" . $ai;
                             }
                             File::delete($destinationPath);
                         }
