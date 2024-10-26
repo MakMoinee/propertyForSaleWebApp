@@ -279,7 +279,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    @if ($propertyStatus[$item->propertyID])
+                                                    @if (count($propertyStatus) > 0 && $propertyStatus[$item->propertyID])
                                                     @else
                                                         @if (count($imgArray) > 0)
                                                             <button class="btn btn-white" data-coreui-toggle="modal"
