@@ -6,11 +6,12 @@
       charset=UTF-8">
     <!--<base href="./">-->
     <base href=".">
+    <link href="/ph.png" rel="icon">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,
       shrink-to-fit=no">
-    
+
     <meta name="author" content="Łukasz Holeczek">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>BestProperties.ph</title>
@@ -96,13 +97,7 @@
                                         History
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/admin_feedbacks">
-                                        <img src="/feedback.svg" alt="" srcset="" class="nav-icon">
-                                        Feedback
-                                        Information
-                                    </a>
-                                </li>
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" data-coreui-toggle="modal"
                                         data-coreui-target="#logoutModal">
@@ -157,7 +152,7 @@
                 </ul>
                 <ul class="header-nav ms-3">
                     <p>
-                        <h6>Hello, <b>Admin</b></h6>
+                    <h6>Hello, <b>Admin</b></h6>
                     </p>
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown"
                             href="https://coreui.io/demos/bootstrap/4.2/free/#" role="button" aria-haspopup="true"
@@ -221,7 +216,7 @@
                         <div class="card mb-4 text-black bg-white" style="height: 165px;">
                             <div class="card-body pb-0 d-flex justify-content-between align-items-start">
                                 <div>
-                                    <div class="fs-4 fw-semibold">26K</div>
+                                    <div class="fs-4 fw-semibold">{{ $allProps }}</div>
                                     <div>Total Properties</div>
                                 </div>
                             </div>

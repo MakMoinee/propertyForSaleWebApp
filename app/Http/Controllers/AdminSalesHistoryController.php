@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ImageProperties;
-use App\Models\Properties;
+use App\Models\SystemUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AdminProperInfoController extends Controller
+class AdminSalesHistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,34 +20,19 @@ class AdminProperInfoController extends Controller
             if ($user['type'] != "Admin") {
                 return redirect("/");
             }
+            $allSales = DB::table('vwagentsales')->get();
+            $allUsers = SystemUsers::all();
+            $customer = array();
 
-            $myProperties = DB::table('properties')
-                ->orderBy('created_at', 'desc')
-                ->paginate(10);
-
-            $allProperties = json_decode(Properties::all(), true);
-
-            $allImage = json_decode(ImageProperties::all(), true);
-
-            $imgArray = array();
-            $propertyStatus = array();
-
-            $mySale = DB::table('vwagentsales')->get();
-            foreach ($allProperties as $m) {
-                foreach ($allImage as $a) {
-                    if ($a["propertyID"] == $m["propertyID"]) {
-                        $imgArray[$m["propertyID"]] = $a;
-                    }
-                }
-
-                foreach ($mySale as $m) {
-                    if ($a["propertyID"] == $m->propertyID && $m->payment_status == 'approved') {
-                        $propertyStatus[$a["propertyID"]] = true;
+            foreach ($allSales as $a) {
+                foreach ($allUsers as $u) {
+                    if ($u->userID == $a->userID) {
+                        $customer[$a->propertyID] = $u;
                     }
                 }
             }
 
-            return view('admin.property', ['properties' => $myProperties, 'imgArray' => $imgArray, 'propertyStatus' => $propertyStatus]);
+            return view('admin.sales_history', ['customer' => $customer, 'allSales' => $allSales]);
         }
         return redirect("/");
     }
@@ -74,7 +58,27 @@ class AdminProperInfoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if (session()->exists("users")) {
+            $user = session()->pull("users");
+            session()->put("users", $user);
+
+            if ($user['type'] != "Admin") {
+                return redirect("/");
+            }
+
+
+            $query = json_decode(DB::table('vwagentsales')->where('propertyID', '=', $id)->get(), true);
+            $exist = (count($query) == 1);
+
+            if (!$exist) {
+                session()->put("errorNotExist", true);
+                return redirect("/admin_sales");
+            } else {
+                $data = json_decode(DB::table('order_payments')->where('propertyID', '=', $id)->get(), true);
+                return view('admin.detail_sales', ['payment' => $data[0]]);
+            }
+        }
+        return redirect("/");
     }
 
     /**

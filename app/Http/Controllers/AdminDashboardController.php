@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Properties;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,10 +23,11 @@ class AdminDashboardController extends Controller
 
             $clientCount = count(json_decode(DB::table('system_users')->where('type', '=', 'Client')->get(), true));
             $agentCount = count(json_decode(DB::table('system_users')->where('type', '=', 'Agent')->get(), true));
-
+            $allProps = count(json_decode(Properties::all(),true));
             return view('admin.dashboard', [
                 'clientCount' => $clientCount,
-                'agentCount' => $agentCount
+                'agentCount' => $agentCount,
+                'allProps' => $allProps
             ]);
         }
     }

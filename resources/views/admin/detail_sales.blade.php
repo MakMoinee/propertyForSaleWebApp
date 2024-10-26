@@ -84,7 +84,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/admin_property">
+                                    <a class="nav-link " href="/admin_property">
                                         <img src="/property.svg" alt="" srcset="" class="nav-icon">
                                         Property Information
                                     </a>
@@ -96,7 +96,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin_sales">
+                                    <a class="nav-link active" href="/admin_sales">
                                         <img src="/sales.svg" alt="" srcset="" class="nav-icon"> Sales
                                         History
                                     </a>
@@ -195,113 +195,65 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <span style="font-size:25px;">PROPERTY INFORMATION</span>
-                            </div>
+                    <div class="col-lg-12">
+                        <h3 class="mb-3">Transaction Details</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <button class="btn btn-dark" onclick="window.location.href='/admin_sales'">
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card shadow-lg mb-4" id="printableArea">
                             <div class="card-body">
-                                <form action="/admin_users" method="get">
-                                    <div class="form-group">
-                                        <div class="input-group mb-3">
-                                            <input type="search" class="form-control" placeholder="Search Name"
-                                                aria-label="Search Name" aria-describedby="basic-addon2"
-                                                name="search">
-                                            <div class="input-group-append">
-                                                <button type="submit"
-                                                    class="btn btn-primary input-group-text">Search</button>
-                                            </div>
-                                        </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title">Amount Paid:</h5>
+                                        <p class="card-text text-primary display-6">
+                                            P{{ number_format($payment['amount'], 2) }}
+                                        </p>
                                     </div>
-                                </form>
-                                <br>
-                                <table class="table border mb-0">
-                                    <thead class="table-light fw-semibold">
-                                        <tr class="align-middle">
-                                            <th class="text-center sortable" data-sort="propertyName">Property Name
-                                            </th>
-                                            <th class="sortable" data-sort="price">Price</th>
-                                            <th class="text-center sortable" data-sort="contactNumber">Contact Number
-                                            </th>
-                                            <th class="sortable" data-sort="otherDetails">Other Details</th>
-                                            <th class="text-center sortable" data-sort="type">Type</th>
-                                            <th>Posted Date</th>
-                                            <th class="text-center sortable">Image/s</th>
-                                            <th>Action</th>
-                                            <th class="text-center sortable"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($properties as $item)
-                                            <tr class="align-middle">
-                                                <td class="text-center">{{ $item->propertyName }}</td>
-                                                <td>
-                                                    {{ number_format($item->price, 1) }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $item->contactNumber }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->otherDetails }}
-                                                </td>
-                                                <td class="text-center">
-                                                    @if ($propertyStatus[$item->propertyID])
-                                                        <s>Sold</s>
-                                                    @else
-                                                        {{ $item->type }}
-                                                    @endif
-
-                                                </td>
-                                                <td>
-                                                    {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
-                                                </td>
-                                                <td class="text-center">
-
-                                                    @if (count($imgArray) > 0 || $propertyStatus[$item->propertyID])
-                                                        <button data-coreui-target="#viewPropertyModal"
-                                                            data-coreui-toggle="modal"
-                                                            onclick="viewProperty('{{ $imgArray[$item->propertyID]['imagePath'] }}')"
-                                                            class="btn btn-success text-white">
-                                                            View
-                                                        </button>
-                                                    @else
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination">
-                                        <ul class="pagination">
-                                            @for ($i = 1; $i <= $properties->lastPage(); $i++)
-                                                @if ($i == 1)
-                                                    <li class="page-item " style="margin-left: 15px;">
-                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @else
-                                                    <li class="page-item ">
-                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @endif
-                                            @endfor
-                                        </ul>
-
+                                    <div class="col-md-6 text-md-end">
+                                        <h5 class="card-title">Payment Date:</h5>
+                                        <p class="card-text">
+                                            {{ (new DateTime($payment['created_at']))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title">Payment Email:</h5>
+                                        <p class="card-text">{{ $payment['payer_email'] }}</p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <h5 class="card-title">Transaction ID:</h5>
+                                        <p class="card-text">{{ $payment['payment_id'] }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <h5 class="card-title">Status:</h5>
+                                        <span
+                                            class="badge rounded-pill 
+                                            {{ $payment['payment_status'] == 'approved' ? 'bg-success' : ($payment->status == 'pending' ? 'bg-warning text-dark' : 'bg-danger') }}">
+                                            {{ $payment['payment_status'] }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <button class="btn btn-warning mt-3" onclick="printPaymentDetails()">Print Payment
+                            Details</button>
                     </div>
                 </div>
-
             </div>
         </div>
         <footer class="footer">
@@ -377,9 +329,8 @@
         {{ session()->forget('successLoginAdmin') }}
     @endif
     <script>
-        function viewProperty(imagePath) {
-            let d = document.getElementById('viewImage');
-            d.src = `/data/img_properties/${imagePath}`;
+        function into(id) {
+            window.open(`/admin_sales/${id}#pdetails`, '_blank');
         }
     </script>
 </body>

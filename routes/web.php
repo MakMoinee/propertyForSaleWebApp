@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminProperInfoController;
+use App\Http\Controllers\AdminSalesHistoryController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AgentDashboardController;
 use App\Http\Controllers\AgentProfileController;
@@ -51,3 +52,4 @@ Route::get("/agents", [ShowAgentsController::class, 'index']);
 Route::resource("/my_account", MyAccountsController::class);
 Route::resource("/agent_sales", AgentSalesHistoryController::class);
 Route::resource("/agent_profile", AgentProfileController::class);
+Route::resource("/admin_sales", AdminSalesHistoryController::class);

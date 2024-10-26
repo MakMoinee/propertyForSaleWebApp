@@ -101,13 +101,7 @@
                                         History
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/admin_feedbacks">
-                                        <img src="/feedback.svg" alt="" srcset="" class="nav-icon">
-                                        Feedback
-                                        Information
-                                    </a>
-                                </li>
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" data-coreui-toggle="modal"
                                         data-coreui-target="#logoutModal">

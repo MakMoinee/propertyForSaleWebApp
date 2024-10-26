@@ -84,7 +84,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="/admin_property">
+                                    <a class="nav-link " href="/admin_property">
                                         <img src="/property.svg" alt="" srcset="" class="nav-icon">
                                         Property Information
                                     </a>
@@ -96,7 +96,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/admin_sales">
+                                    <a class="nav-link active" href="/admin_sales">
                                         <img src="/sales.svg" alt="" srcset="" class="nav-icon"> Sales
                                         History
                                     </a>
@@ -195,113 +195,60 @@
         <div class="body flex-grow-1 px-3">
             <div class="container-lg">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-lg-12">
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <span style="font-size:25px;">PROPERTY INFORMATION</span>
-                            </div>
                             <div class="card-body">
-                                <form action="/admin_users" method="get">
-                                    <div class="form-group">
-                                        <div class="input-group mb-3">
-                                            <input type="search" class="form-control" placeholder="Search Name"
-                                                aria-label="Search Name" aria-describedby="basic-addon2"
-                                                name="search">
-                                            <div class="input-group-append">
-                                                <button type="submit"
-                                                    class="btn btn-primary input-group-text">Search</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
                                 <br>
-                                <table class="table border mb-0">
-                                    <thead class="table-light fw-semibold">
-                                        <tr class="align-middle">
-                                            <th class="text-center sortable" data-sort="propertyName">Property Name
-                                            </th>
-                                            <th class="sortable" data-sort="price">Price</th>
-                                            <th class="text-center sortable" data-sort="contactNumber">Contact Number
-                                            </th>
-                                            <th class="sortable" data-sort="otherDetails">Other Details</th>
-                                            <th class="text-center sortable" data-sort="type">Type</th>
-                                            <th>Posted Date</th>
-                                            <th class="text-center sortable">Image/s</th>
-                                            <th>Action</th>
-                                            <th class="text-center sortable"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($properties as $item)
+                                <div class="table-responsive">
+                                    <table class="table border mb-0">
+                                        <thead class="table-light fw-semibold">
                                             <tr class="align-middle">
-                                                <td class="text-center">{{ $item->propertyName }}</td>
-                                                <td>
-                                                    {{ number_format($item->price, 1) }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $item->contactNumber }}
-                                                </td>
-                                                <td>
-                                                    {{ $item->otherDetails }}
-                                                </td>
-                                                <td class="text-center">
-                                                    @if ($propertyStatus[$item->propertyID])
-                                                        <s>Sold</s>
-                                                    @else
-                                                        {{ $item->type }}
-                                                    @endif
-
-                                                </td>
-                                                <td>
-                                                    {{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
-                                                </td>
-                                                <td class="text-center">
-
-                                                    @if (count($imgArray) > 0 || $propertyStatus[$item->propertyID])
-                                                        <button data-coreui-target="#viewPropertyModal"
-                                                            data-coreui-toggle="modal"
-                                                            onclick="viewProperty('{{ $imgArray[$item->propertyID]['imagePath'] }}')"
-                                                            class="btn btn-success text-white">
-                                                            View
-                                                        </button>
-                                                    @else
-                                                    @endif
-                                                </td>
-                                                <td class="text-center">
-
-                                                </td>
+                                                <th class="text-center">
+                                                </th>
+                                                <th>Property Name</th>
+                                                <th class="text-center">Sold To</th>
+                                                <th>Amount</th>
+                                                <th class="text-center">Paid Date</th>
+                                                <th>Action</th>
+                                                <th class="text-center"></th>
+                                                <th></th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="pagination">
-                                        <ul class="pagination">
-                                            @for ($i = 1; $i <= $properties->lastPage(); $i++)
-                                                @if ($i == 1)
-                                                    <li class="page-item " style="margin-left: 15px;">
-                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @else
-                                                    <li class="page-item ">
-                                                        <a class="page-link {{ $properties->currentPage() == $i ? 'active' : '' }}"
-                                                            href="{{ $properties->url($i) }}">{{ $i }}</a>
-                                                    </li>
-                                                @endif
-                                            @endfor
-                                        </ul>
-
-                                    </div>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($allSales as $item)
+                                                <tr class="align-middle">
+                                                    <td class="text-center">
+                                                    </td>
+                                                    <td>
+                                                        {{ $item->propertyName }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ $customer[$item->propertyID]->firstName }}
+                                                        {{ $customer[$item->propertyID]->middleName }}
+                                                        {{ $customer[$item->propertyID]->lastName }}
+                                                    </td>
+                                                    <td>P{{ number_format($item->amount) }}</td>
+                                                    <td class="text-center">
+                                                        {{ (new DateTime($item->paymentDate))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-success"
+                                                            onclick="into({{ $item->propertyID }})">
+                                                            <img src="/view.svg" alt="" srcset="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="text-center"></td>
+                                                    <td></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
         <footer class="footer">
@@ -377,9 +324,8 @@
         {{ session()->forget('successLoginAdmin') }}
     @endif
     <script>
-        function viewProperty(imagePath) {
-            let d = document.getElementById('viewImage');
-            d.src = `/data/img_properties/${imagePath}`;
+         function into(id) {
+            window.open(`/admin_sales/${id}#pdetails`, '_blank');
         }
     </script>
 </body>
