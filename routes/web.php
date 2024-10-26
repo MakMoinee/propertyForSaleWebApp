@@ -9,10 +9,12 @@ use App\Http\Controllers\ClientHomeController;
 use App\Http\Controllers\ClientPropertyListController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\MyAccountsController;
 use App\Http\Controllers\OwnedProperties;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentDetailsController;
 use App\Http\Controllers\PropertyAgentsController;
+use App\Http\Controllers\ShowAgentsController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,3 +45,5 @@ Route::resource("/payment_details", PaymentDetailsController::class);
 Route::post("/charge", [PaymentController::class, 'charge']);
 Route::get("/success", [PaymentController::class, 'success']);
 Route::get("/property_agents", [PropertyAgentsController::class, 'index']);
+Route::get("/agents", [ShowAgentsController::class, 'index']);
+Route::resource("/my_account", MyAccountsController::class);

@@ -48,14 +48,14 @@
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="/" >Home</a></li>
                             <li class="scroll-to-section"><a href="/#props">Property</a></li>
-                            <li class="scroll-to-section"><a href="/agents">Agents</a></li>
+                            <li class="scroll-to-section"><a href="/agents" class="active">Agents</a></li>
                             <li class="scroll-to-section padRight"><a href="#footer">Contact Us</a></li>
                             <li class="scroll-to-section"><a href="#" data-toggle="modal"
-                                    data-target="#signupModal">Register</a></li>
-                            <li class="scroll-to-section"><button class="btn btn-danger dangerBtn"
-                                    data-target="#loginModal" data-toggle="modal">Login</button></li>
+                                    data-target="#signupModal">Register/Login</a></li>
+                            <li class="scroll-to-section"><button class="btn btn-danger dangerBtn">List
+                                    Property</button></li>
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -68,179 +68,44 @@
     </header>
     <!-- ***** Header Area End ***** -->
 
+    <!-- Team Start -->
+    <div class="container-xxl py-5 mt-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h1 class="mb-3">Property Agents</h1>
+                <p>Connect with experienced and trusted property agents who specialize in helping you find your
+                    ideal home or investment. Whether you’re looking to buy or rent, our agents are here to guide
+                    you every step of the way with personalized service and expert advice.</p>
+            </div>
+            <div class="row g-4">
+                @foreach ($allAgents as $item)
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="team-item rounded overflow-hidden">
+                            <div class="position-relative">
+                                @if ($item->gender == 'Male')
+                                    <img class="img-fluid" src="/boy.png" alt="">
+                                @else
+                                    <img class="img-fluid" src="/woman.png" alt="">
+                                @endif
 
-    <!-- ***** Welcome Area Start ***** -->
-    <div class="welcome-area" id="welcome">
-
-        <!-- ***** Header Text Start ***** -->
-        <div class="header-text">
-            <div class="container">
-                <div class="row" style="padding-bottom: 40px;">
-                    <div class="left-text col-lg-6 col-md-6 col-sm-12 col-xs-12"
-                        data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-                        <h1><strong>Find The Best Property in the Philippines </strong></h1>
-                        <p>Discover the best for you and your needs</p>
-                        <button class="btn btn-primary" data-target="#loginModal" data-toggle="modal">Login</button>
+                                <div
+                                    class="position-absolute start-50 top-100 translate-middle d-flex align-items-center">
+                                    <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                    <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                    <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                            <div class="text-center p-4 mt-3">
+                                <h5 class="fw-bold mb-0">{{ $item->firstName }} {{ $item->middleName }}
+                                    {{ $item->lastName }}</h5>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
-        <!-- ***** Header Text End ***** -->
     </div>
-    <!-- ***** Welcome Area End ***** -->
-
-    @if (count($allProv) > 0)
-        <section class="section" style="margin-top: 100px; margin-bottom: 200px;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 align-content-center text-center">
-                        <h1>
-                            <strong>
-                                Explore Our Listings
-                            </strong>
-                        </h1>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="row mt-2">
-                    @foreach ($allProv as $item)
-                        <div class="col-lg-2 align-content-center text-center p-2">
-                            <img src="/cebu.jpg" width="120px" height="120px" alt=""
-                                class="img-responsive rounded-circle">
-                            <br>
-                            <h5 class="mt-2">
-                                <strong>
-                                    {{ $item->province }}
-                                </strong>
-                            </h5>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-
-
-
-    @if (count($allProps) > 0)
-
-        <section class="section" style="margin-top: 20px;margin-bottom: 20px;" id="props">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 align-content-center text-center">
-                        <h1>
-                            <strong>
-                                Discover The Latest Real Estate
-                            </strong>
-                        </h1>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    @foreach ($allProps as $item)
-                        <div class="col-md-4">
-                            <a data-target="#loginModal" data-toggle="modal"
-                                onclick="setRedirectTo({{ $item->propertyID }})">
-                                <div class="card mb-4 rounded"
-                                    style="cursor: pointer; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <span class="badge bg-danger text-white"
-                                                    style="float: left; position: absolute; padding: 5px;">Featured</span>
-                                                <span class="badge bg-violet text-white"
-                                                    style="float: left; position: absolute; margin-top: 30px; padding: 5px;">For
-                                                    {{ $item->type }}</span>
-                                                @foreach ($allImages as $img)
-                                                    @if ($img['propertyID'] == $item->propertyID)
-                                                        <img src="/data/img_properties/{{ $img['imagePath'] }}"
-                                                            style="height: 200px;width: 100%;" alt=""
-                                                            srcset="" class="img-responsive rounded">
-                                                    @endif
-                                                @endforeach
-
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <h5>
-                                                    <strong>
-                                                        {{ $item->propertyName }}
-                                                    </strong>
-                                                </h5>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <img src="/map.svg" alt="" srcset=""
-                                                            class="mt-1 float-left position-absolute">
-                                                        <h6 class="ml-4 mt-1">
-                                                            {{ $item->street }}, {{ $item->brgy }},
-                                                            {{ $item->city }},
-                                                            {{ $item->province }} {{ $item->zip }}
-                                                        </h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <h4 class="text-danger">
-                                                    <strong>
-                                                        P{{ number_format($item->price, 1) }}
-                                                    </strong>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <img src="/bed.svg" alt="" srcset=""
-                                                    class="float-left position-absolute">
-                                                <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                    Beds: <strong>{{ $item->beds }}</strong>
-                                                </h6>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <img src="/bath.svg" alt="" srcset=""
-                                                    class="float-left position-absolute">
-                                                <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                    Baths: <strong>{{ $item->baths }}</strong>
-                                                </h6>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <img src="/area.svg" alt="" srcset=""
-                                                    class="float-left position-absolute">
-                                                <h6 class="ml-4 mt-1" style="font-size: 12px !important;">
-                                                    Sqm: <strong>{{ $item->lotArea }}</strong>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <h6 class="mt-1" style="font-size: 12px !important;">
-                                                    Posted:
-                                                    <strong>{{ (new DateTime($item->created_at))->setTimezone(new DateTimeZone('Asia/Manila'))->format('Y-m-d h:i A') }}</strong>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-
-                    <div class="col-md-4">
-
-                    </div>
-                    <div class="col-md-4">
-
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endif
+    <!-- Team End -->
 
     <div>
         <button style="display: none" id="showLogin" data-target="#loginModal" data-toggle="modal"></button>
